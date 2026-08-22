@@ -10,12 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
+import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
+import { Route as adminLayoutDocumentosRouteImport } from './routes/(admin)/_layout/documentos'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const adminLayoutRoute = adminLayoutRouteImport.update({
+  id: '/(admin)/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const adminLayoutDashboardRoute = adminLayoutDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => adminLayoutRoute,
+} as any)
+const adminLayoutDocumentosRoute = adminLayoutDocumentosRouteImport.update({
+  id: '/documentos',
+  path: '/documentos',
+  getParentRoute: () => adminLayoutRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -25,27 +42,41 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof adminLayoutDashboardRoute
+  '/documentos': typeof adminLayoutDocumentosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof adminLayoutDashboardRoute
+  '/documentos': typeof adminLayoutDocumentosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/(admin)/_layout': typeof adminLayoutRouteWithChildren
+  '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
+  '/(admin)/_layout/documentos': typeof adminLayoutDocumentosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/auth/$'
+  fullPaths: '/' | '/dashboard' | '/documentos' | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/auth/$'
-  id: '__root__' | '/' | '/api/auth/$'
+  to: '/' | '/dashboard' | '/documentos' | '/api/auth/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/(admin)/_layout'
+    | '/(admin)/_layout/dashboard'
+    | '/(admin)/_layout/documentos'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  adminLayoutRoute: typeof adminLayoutRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -58,6 +89,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(admin)/_layout': {
+      id: '/(admin)/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof adminLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(admin)/_layout/dashboard': {
+      id: '/(admin)/_layout/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof adminLayoutDashboardRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
+    '/(admin)/_layout/documentos': {
+      id: '/(admin)/_layout/documentos'
+      path: '/documentos'
+      fullPath: '/documentos'
+      preLoaderRoute: typeof adminLayoutDocumentosRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -68,8 +120,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface adminLayoutRouteChildren {
+  adminLayoutDashboardRoute: typeof adminLayoutDashboardRoute
+  adminLayoutDocumentosRoute: typeof adminLayoutDocumentosRoute
+}
+
+const adminLayoutRouteChildren: adminLayoutRouteChildren = {
+  adminLayoutDashboardRoute: adminLayoutDashboardRoute,
+  adminLayoutDocumentosRoute: adminLayoutDocumentosRoute,
+}
+
+const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
+  adminLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  adminLayoutRoute: adminLayoutRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
