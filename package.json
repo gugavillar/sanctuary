@@ -13,6 +13,7 @@
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
+    "check-types": "tsc --noEmit",
     "post-cta-init": "pnpm dlx create-db@latest --user-agent tanstack/tsrouter",
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "db:push": "dotenv -e .env.local -- prisma db push",
@@ -36,6 +37,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.86.0",
+    "react-number-format": "^5.4.5",
     "tailwindcss": "^4.1.18",
     "zod": "^4.4.3"
   },

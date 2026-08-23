@@ -1,2 +1,5 @@
 export * from './Button'
+export * from './FileInput'
 export * from './Input'
+export * from './MaskedInput'
+export * from './Select'

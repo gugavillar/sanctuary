@@ -1,2 +1,3 @@
-export * from './Sidebard'
+export * from './Sidebar'
 export * from './Spinner'
+export * from './Table'

@@ -26,7 +26,11 @@ export const Login = () => {
 	}
 
 	return (
-		<form className="mx-auto flex w-120 flex-col items-center justify-center gap-6" name="login">
+		<form
+			className="mx-auto flex w-120 flex-col items-center justify-center gap-6"
+			name="login"
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			<h1 className="font-bold text-2xl lg:text-3xl">Acesse sua conta</h1>
 			<Input
 				label="Email"
@@ -45,7 +49,7 @@ export const Login = () => {
 			<Button
 				className="w-full bg-emerald-600 text-white hover:bg-emerald-500"
 				disabled={!isDirty || !isValid}
-				onClick={handleSubmit(onSubmit)}
+				type="submit"
 			>
 				Entrar
 			</Button>

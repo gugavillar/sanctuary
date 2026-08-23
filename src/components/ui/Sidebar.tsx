@@ -9,7 +9,7 @@ const SidebarItem = ({ icon, label, to }: { icon: React.ReactNode; label: string
 	return (
 		<Link
 			activeProps={{ className: 'font-semibold bg-gray-300' }}
-			className="flex gap-2.5 rounded-lg p-2.5 hover:bg-gray-300"
+			className="flex gap-2.5 rounded-lg border border-gray-400 p-2.5 shadow hover:bg-gray-300"
 			to={to}
 		>
 			{icon}
@@ -38,7 +38,7 @@ export const Sidebar = () => {
 				</div>
 			</div>
 			<div className="mt-auto pt-6">
-				<Button className="w-full bg-emerald-600 p-2.5 text-white" onClick={handleLogout}>
+				<Button className="w-full bg-emerald-600 p-2.5 text-white hover:bg-emerald-500" onClick={handleLogout}>
 					Sair
 				</Button>
 			</div>

@@ -12,7 +12,7 @@ export const Button = ({ children, className, isLoading, disabled, ...props }: B
 	return (
 		<button
 			className={twMerge(
-				'inline-flex cursor-pointer items-center justify-center gap-x-2 rounded-lg px-4 py-3 font-medium text-sm focus:outline-hidden disabled:pointer-events-none disabled:opacity-50',
+				'inline-flex cursor-pointer items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium text-sm shadow shadow-gray-800 transition-all duration-500 focus:outline-hidden disabled:pointer-events-none disabled:opacity-50',
 				className
 			)}
 			disabled={isLoading || disabled}

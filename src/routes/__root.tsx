@@ -19,7 +19,7 @@ export const Route = createRootRoute({
 				name: 'viewport',
 			},
 			{
-				title: 'TanStack Start Starter',
+				title: 'Sanctuary - Gestão de igreja',
 			},
 		],
 	}),
@@ -28,7 +28,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="pt-BR">
 			<head>
 				<HeadContent />
 			</head>
