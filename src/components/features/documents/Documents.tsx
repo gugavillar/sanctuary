@@ -15,7 +15,7 @@ export const Documents = () => {
 
 	return (
 		<div className="flex flex-col gap-8">
-			<div className="flex items-center justify-between">
+			<div className="flex items-center justify-between gap-6">
 				<Input className="max-w-3xl" label="Buscar" placeholder="Encontre um documento" />
 				<Button className="w-sm bg-emerald-600 text-white hover:bg-emerald-500" onClick={handleAddDocument}>
 					<PlusCircleIcon />

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/(admin)/_layout/documentos/novo_documento
 
 function NewDocumentPage() {
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-8">
 			<NewDocument />
 		</div>
 	)
