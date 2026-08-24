@@ -2,8 +2,10 @@ import { useNavigate } from '@tanstack/react-router'
 import { ChevronLeft, PlusCircle, Trash2 } from 'lucide-react'
 import { type ChangeEvent, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { twMerge } from 'tailwind-merge'
 
 import { Button, FileInput, Input, MaskedInput, Select } from '#/components/forms'
+import { DOCUMENTS_CATEGORIES, DOCUMENTS_TYPES } from '#/constants'
 
 import { type NewDocumentSchema, newDocumentResolver } from './NewDocument.schema'
 
@@ -64,8 +66,6 @@ export const NewDocument = () => {
 		console.log(data)
 	}
 
-	console.log(errors)
-
 	return (
 		<>
 			<div className="flex items-center gap-3">
@@ -79,17 +79,57 @@ export const NewDocument = () => {
 				<form className="flex flex-col gap-6" name="new-document" onSubmit={handleSubmit(onSubmit)}>
 					<Input label="Título" placeholder="Título" {...register('title')} error={errors.title?.message} />
 					<div className="flex gap-6">
-						<Select label="Tipo" options={[]} placeholder="Tipo" {...register('type')} />
-						<Select label="Categoria" options={[]} placeholder="Categoria" {...register('category')} />
+						<Select
+							label="Tipo"
+							options={DOCUMENTS_TYPES}
+							placeholder="Tipo"
+							{...register('type')}
+							error={errors.type?.message}
+						/>
+						<Select
+							label="Categoria"
+							options={DOCUMENTS_CATEGORIES}
+							placeholder="Categoria"
+							{...register('category')}
+							error={errors.category?.message}
+						/>
 					</div>
 					<div className="flex gap-6">
-						<MaskedInput format="##/##/####" label="Data" placeholder="Data" {...register('date')} />
-						<Input label="Número/Identificação" placeholder="Número/Identificação" {...register('identification')} />
+						<MaskedInput
+							format="##/##/####"
+							label="Data"
+							placeholder="Data"
+							{...register('date')}
+							error={errors.date?.message}
+						/>
+						<Input
+							label="Número/Identificação"
+							placeholder="Número/Identificação"
+							{...register('identification')}
+							error={errors.identification?.message}
+						/>
 					</div>
-					<Input label="Descrição" placeholder="Descrição" {...register('description')} />
+					<Input
+						label="Descrição"
+						placeholder="Descrição"
+						{...register('description')}
+						error={errors.description?.message}
+					/>
 					{fields.map((item, index) => (
-						<div className="flex items-center justify-between gap-6" key={item.id}>
-							<Input key={item.id} label="Tags" placeholder="Etiqueta" {...register(`tags.${index}.tag`)} />
+						<div
+							className={twMerge(
+								'flex justify-between gap-6',
+								errors.tags?.[index]?.tag?.message ? 'items-center' : 'items-end'
+							)}
+							key={item.id}
+						>
+							<Input
+								key={item.id}
+								label={`Etiqueta ${index + 1}`}
+								placeholder="Etiqueta"
+								{...register(`tags.${index}.tag`)}
+								error={errors.tags?.[index]?.tag?.message}
+							/>
 							{index !== 0 ? (
 								<Button className="bg-rose-600 text-white hover:bg-rose-500" onClick={() => remove(index)}>
 									<Trash2 />
@@ -105,14 +145,16 @@ export const NewDocument = () => {
 							)}
 						</div>
 					))}
+					{errors.tags?.root?.message && <p className="text-red-500 text-xs">{errors.tags?.root?.message}</p>}
 					<FileInput
 						control={control}
+						error={errors.file?.message as string}
 						fieldName="file"
 						handleRemoveFile={handleRemoveFile}
 						onChange={handleFileChange}
 						watch={watch}
 					/>
-					<Select label="Permissão" options={[]} placeholder="Permissão" />
+					<Select error={errors.permission?.message} label="Permissão" options={[]} placeholder="Permissão" />
 					<Button
 						className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
 						disabled={!isDirty || !isValid}

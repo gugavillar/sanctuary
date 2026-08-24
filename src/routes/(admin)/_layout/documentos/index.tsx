@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Documents } from '#/components/features'
+import { Documents } from '#/features'
 
 export const Route = createFileRoute('/(admin)/_layout/documentos/')({
 	component: DocumentsPage,

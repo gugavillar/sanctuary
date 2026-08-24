@@ -8,8 +8,8 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 export const Input = ({ label, className, error, ...props }: InputProps) => {
 	return (
-		<>
-			<label className="sr-only" htmlFor={props.id}>
+		<div className="flex w-full flex-col gap-1">
+			<label className="text-sm" htmlFor={props.id}>
 				{label}
 			</label>
 			<div className="flex w-full flex-col gap-1">
@@ -22,6 +22,6 @@ export const Input = ({ label, className, error, ...props }: InputProps) => {
 				/>
 				{error && <p className="ps-1 text-red-500 text-xs">{error}</p>}
 			</div>
-		</>
+		</div>
 	)
 }

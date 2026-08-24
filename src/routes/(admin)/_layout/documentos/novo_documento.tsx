@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { NewDocument } from '#/components/features/new_document'
+import { NewDocument } from '#/features'
 
 export const Route = createFileRoute('/(admin)/_layout/documentos/novo_documento')({
 	component: NewDocumentPage,

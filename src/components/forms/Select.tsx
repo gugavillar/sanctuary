@@ -15,8 +15,8 @@ type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
 
 export const Select = ({ label, className, error, options, placeholder, ...props }: SelectProps) => {
 	return (
-		<>
-			<label className="sr-only" htmlFor={props.id}>
+		<div className="flex w-full flex-col gap-1">
+			<label className="text-sm" htmlFor={props.id}>
 				{label}
 			</label>
 			<div className="relative flex w-full flex-col gap-1">
@@ -37,6 +37,6 @@ export const Select = ({ label, className, error, options, placeholder, ...props
 				</select>
 				{error && <p className="ps-1 text-red-500 text-xs">{error}</p>}
 			</div>
-		</>
+		</div>
 	)
 }
