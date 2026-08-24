@@ -1,4 +1,4 @@
-import { FileScan, Gauge } from 'lucide-react'
+import { FileScan, Gauge, Users2 } from 'lucide-react'
 
 export const MENU_ITEMS = [
 	{
@@ -10,6 +10,11 @@ export const MENU_ITEMS = [
 		icon: <FileScan />,
 		label: 'Documentos',
 		to: '/documentos',
+	},
+	{
+		icon: <Users2 />,
+		label: 'Usuários',
+		to: '/usuarios',
 	},
 ]
 

@@ -4,19 +4,23 @@ export const HEADER_LABELS_DOCUMENTS = [
 		label: 'Título',
 	},
 	{
-		accessor: 'description',
-		label: 'Descrição',
-	},
-	{
 		accessor: 'type',
 		label: 'Tipo',
 	},
 	{
-		accessor: 'document_date',
-		label: 'Data',
+		accessor: 'category',
+		label: 'Categoria',
+	},
+	{
+		accessor: 'identification',
+		label: 'Identificação',
+	},
+	{
+		accessor: 'description',
+		label: 'Descrição',
 	},
 	{
 		accessor: 'tags',
-		label: 'Tags',
+		label: 'Etiquetas',
 	},
 ]

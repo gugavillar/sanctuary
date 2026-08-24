@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
 import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
+import { Route as adminLayoutUsuariosRouteImport } from './routes/(admin)/_layout/usuarios'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as adminLayoutDocumentosIndexRouteImport } from './routes/(admin)/_layout/documentos/index'
 import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './routes/(admin)/_layout/documentos/novo_documento'
@@ -28,6 +29,11 @@ const adminLayoutRoute = adminLayoutRouteImport.update({
 const adminLayoutDashboardRoute = adminLayoutDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => adminLayoutRoute,
+} as any)
+const adminLayoutUsuariosRoute = adminLayoutUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
   getParentRoute: () => adminLayoutRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -51,6 +57,7 @@ const adminLayoutDocumentosNovo_documentoRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof adminLayoutDashboardRoute
+  '/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/documentos/': typeof adminLayoutDocumentosIndexRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof adminLayoutDashboardRoute
+  '/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/documentos': typeof adminLayoutDocumentosIndexRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/(admin)/_layout': typeof adminLayoutRouteWithChildren
   '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
+  '/(admin)/_layout/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/(admin)/_layout/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/(admin)/_layout/documentos/': typeof adminLayoutDocumentosIndexRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/usuarios'
     | '/api/auth/$'
     | '/documentos/novo_documento'
     | '/documentos/'
@@ -83,6 +93,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/usuarios'
     | '/api/auth/$'
     | '/documentos/novo_documento'
     | '/documentos'
@@ -91,6 +102,7 @@ export interface FileRouteTypes {
     | '/'
     | '/(admin)/_layout'
     | '/(admin)/_layout/dashboard'
+    | '/(admin)/_layout/usuarios'
     | '/api/auth/$'
     | '/(admin)/_layout/documentos/novo_documento'
     | '/(admin)/_layout/documentos/'
@@ -125,6 +137,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminLayoutDashboardRouteImport
       parentRoute: typeof adminLayoutRoute
     }
+    '/(admin)/_layout/usuarios': {
+      id: '/(admin)/_layout/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof adminLayoutUsuariosRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -151,12 +170,14 @@ declare module '@tanstack/react-router' {
 
 interface adminLayoutRouteChildren {
   adminLayoutDashboardRoute: typeof adminLayoutDashboardRoute
+  adminLayoutUsuariosRoute: typeof adminLayoutUsuariosRoute
   adminLayoutDocumentosNovo_documentoRoute: typeof adminLayoutDocumentosNovo_documentoRoute
   adminLayoutDocumentosIndexRoute: typeof adminLayoutDocumentosIndexRoute
 }
 
 const adminLayoutRouteChildren: adminLayoutRouteChildren = {
   adminLayoutDashboardRoute: adminLayoutDashboardRoute,
+  adminLayoutUsuariosRoute: adminLayoutUsuariosRoute,
   adminLayoutDocumentosNovo_documentoRoute:
     adminLayoutDocumentosNovo_documentoRoute,
   adminLayoutDocumentosIndexRoute: adminLayoutDocumentosIndexRoute,
