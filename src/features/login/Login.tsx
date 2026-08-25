@@ -2,6 +2,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 import { Button, Input } from '#/components/forms'
+import { authClient } from '#/lib/auth-client'
 
 import { type LoginSchema, loginResolver } from './login.schema'
 
@@ -20,8 +21,17 @@ export const Login = () => {
 		resolver: loginResolver,
 	})
 
-	const onSubmit = (data: LoginSchema) => {
-		console.log(data)
+	const onSubmit = async (data: LoginSchema) => {
+		const { error } = await authClient.signIn.email({
+			email: data.email,
+			password: data.password,
+		})
+
+		if (error) {
+			console.error(error.message)
+			return
+		}
+
 		navigate({ to: '/dashboard' })
 	}
 

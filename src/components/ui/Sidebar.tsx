@@ -2,6 +2,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { FileBox } from 'lucide-react'
 
 import { MENU_ITEMS } from '#/constants'
+import { authClient } from '#/lib/auth-client'
 
 import { Button } from '../forms'
 
@@ -20,7 +21,8 @@ const SidebarItem = ({ icon, label, to }: { icon: React.ReactNode; label: string
 
 export const Sidebar = () => {
 	const navigate = useNavigate()
-	const handleLogout = () => {
+	const handleLogout = async () => {
+		await authClient.signOut()
 		navigate({ to: '/' })
 	}
 
