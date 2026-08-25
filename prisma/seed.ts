@@ -1,38 +1,47 @@
-import { PrismaClient } from '../src/generated/prisma/client.js'
+import { prisma } from "#/db"
 
-import { getDatabaseUrl } from '../src/database-url.js'
+const CATEGORIES = [
+	'Administrativo',
+	'Financeiro',
+	'Membros',
+	'Patrimônio',
+	'Eventos',
+	'Ministérios',
+	'Jurídico',
+	'Histórico'
+]
 
-import { PrismaPg } from '@prisma/adapter-pg'
-
-const adapter = new PrismaPg({
-  connectionString: getDatabaseUrl(),
-})
-
-const prisma = new PrismaClient({ adapter })
+const TYPES = [
+	'Ata',
+	'Contrato',
+	'Estatuto',
+	'Regimento',
+	'Ofício',
+	'Carta',
+	'Relatório',
+	'Nota fiscal',
+	'Recibo',
+	'Comprovante',
+	'Certidão',
+	'Formulário',
+	'Declaração',
+	'Outros',
+]
 
 async function main() {
-  console.log('🌱 Seeding database...')
-
-  // Clear existing todos
-  await prisma.todo.deleteMany()
-
-  // Create example todos
-  const todos = await prisma.todo.createMany({
-    data: [
-      { title: 'Buy groceries' },
-      { title: 'Read a book' },
-      { title: 'Workout' },
-    ],
-  })
-
-  console.log(`✅ Created ${todos.count} todos`)
+  try {
+    await prisma.document_Categories.createMany({
+      data: CATEGORIES.map((name) => ({ category: name }))
+    })
+    await prisma.document_Types.createMany({
+      data: TYPES.map((name) => ({ type: name }))
+    })
+	} catch (error) {
+		console.error('Erro no seed:', error)
+		process.exit(1)
+	} finally {
+		await prisma.$disconnect()
+	}
 }
 
 main()
-  .catch((e) => {
-    console.error('❌ Error seeding database:', e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })

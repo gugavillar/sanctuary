@@ -7,8 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
+model Document_Types {
+  id   String @id @default(uuid())
+  type String @unique
+}
+
+model Document_Categories {
+  id       String @id @default(uuid())
+  category String @unique
 }
