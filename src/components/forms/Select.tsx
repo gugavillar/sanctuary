@@ -20,7 +20,7 @@ export const Select = ({ label, className, error, options, placeholder, ...props
 				{label}
 			</label>
 			<div className="relative flex w-full flex-col gap-1">
-				<ChevronDown className="absolute top-1/2 right-3 -translate-y-1/2" size={24} />
+				<ChevronDown className={twMerge('absolute top-1/2 right-3 -translate-y-1/2', error && 'top-[35%]')} size={24} />
 				<select
 					className={twMerge(
 						'block w-full appearance-none rounded-lg border border-gray-400 bg-transparent px-4 py-2.5 pe-9 shadow shadow-black/30 disabled:pointer-events-none disabled:opacity-50 sm:py-3 sm:text-sm',

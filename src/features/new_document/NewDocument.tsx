@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { ChevronLeft, PlusCircle, Trash2 } from 'lucide-react'
 import { type ChangeEvent, useState } from 'react'
@@ -5,8 +6,7 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
 import { Button, FileInput, Input, MaskedInput, Select } from '#/components/forms'
-import { DOCUMENTS_CATEGORIES } from '#/constants'
-import { useQuery } from '#/lib/query-client'
+import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
 import { documentTypeQuery } from '#/services/documents/hooks/useGetTypes'
 
 import { type NewDocumentSchema, newDocumentResolver } from './NewDocument.schema'
@@ -15,7 +15,8 @@ export const NewDocument = () => {
 	const [file, setFile] = useState<File | undefined>(undefined)
 	const [urlFile, setUrlFile] = useState<string>('')
 
-	const { data: documentTypes } = useQuery(documentTypeQuery())
+	const { data: documentTypes } = useSuspenseQuery(documentTypeQuery())
+	const { data: documentCategories } = useSuspenseQuery(documentCategoryQuery())
 	const {
 		control,
 		register,
@@ -92,7 +93,7 @@ export const NewDocument = () => {
 						/>
 						<Select
 							label="Categoria"
-							options={DOCUMENTS_CATEGORIES}
+							options={documentCategories}
 							placeholder="Categoria"
 							{...register('category')}
 							error={errors.category?.message}
@@ -161,7 +162,7 @@ export const NewDocument = () => {
 					<Select error={errors.permission?.message} label="Permissão" options={[]} placeholder="Permissão" />
 					<Button
 						className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
-						disabled={!isDirty || !isValid}
+						// disabled={!isDirty || !isValid}
 						type="submit"
 					>
 						Salvar
