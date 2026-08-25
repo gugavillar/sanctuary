@@ -5,13 +5,17 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
 import { Button, FileInput, Input, MaskedInput, Select } from '#/components/forms'
-import { DOCUMENTS_CATEGORIES, DOCUMENTS_TYPES } from '#/constants'
+import { DOCUMENTS_CATEGORIES } from '#/constants'
+import { useQuery } from '#/lib/query-client'
+import { documentTypeQuery } from '#/services/documents/hooks/useGetTypes'
 
 import { type NewDocumentSchema, newDocumentResolver } from './NewDocument.schema'
 
 export const NewDocument = () => {
 	const [file, setFile] = useState<File | undefined>(undefined)
 	const [urlFile, setUrlFile] = useState<string>('')
+
+	const { data: documentTypes } = useQuery(documentTypeQuery())
 	const {
 		control,
 		register,
@@ -81,7 +85,7 @@ export const NewDocument = () => {
 					<div className="flex gap-6">
 						<Select
 							label="Tipo"
-							options={DOCUMENTS_TYPES}
+							options={documentTypes}
 							placeholder="Tipo"
 							{...register('type')}
 							error={errors.type?.message}

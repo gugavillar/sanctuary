@@ -14,6 +14,8 @@ import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
 import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
 import { Route as adminLayoutUsuariosRouteImport } from './routes/(admin)/_layout/usuarios'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiDocumentsCategoriesRouteImport } from './routes/api/documents/categories'
+import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as adminLayoutDocumentosIndexRouteImport } from './routes/(admin)/_layout/documentos/index'
 import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './routes/(admin)/_layout/documentos/novo_documento'
 
@@ -41,6 +43,16 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiDocumentsCategoriesRoute = ApiDocumentsCategoriesRouteImport.update({
+  id: '/api/documents/categories',
+  path: '/api/documents/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDocumentsTypesRoute = ApiDocumentsTypesRouteImport.update({
+  id: '/api/documents/types',
+  path: '/api/documents/types',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const adminLayoutDocumentosIndexRoute =
   adminLayoutDocumentosIndexRouteImport.update({
     id: '/documentos/',
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof adminLayoutDashboardRoute
   '/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
+  '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/documentos/': typeof adminLayoutDocumentosIndexRoute
 }
@@ -67,6 +81,8 @@ export interface FileRoutesByTo {
   '/dashboard': typeof adminLayoutDashboardRoute
   '/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
+  '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/documentos': typeof adminLayoutDocumentosIndexRoute
 }
@@ -77,6 +93,8 @@ export interface FileRoutesById {
   '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
   '/(admin)/_layout/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
+  '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/(admin)/_layout/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/(admin)/_layout/documentos/': typeof adminLayoutDocumentosIndexRoute
 }
@@ -87,6 +105,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/usuarios'
     | '/api/auth/$'
+    | '/api/documents/categories'
+    | '/api/documents/types'
     | '/documentos/novo_documento'
     | '/documentos/'
   fileRoutesByTo: FileRoutesByTo
@@ -95,6 +115,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/usuarios'
     | '/api/auth/$'
+    | '/api/documents/categories'
+    | '/api/documents/types'
     | '/documentos/novo_documento'
     | '/documentos'
   id:
@@ -104,6 +126,8 @@ export interface FileRouteTypes {
     | '/(admin)/_layout/dashboard'
     | '/(admin)/_layout/usuarios'
     | '/api/auth/$'
+    | '/api/documents/categories'
+    | '/api/documents/types'
     | '/(admin)/_layout/documentos/novo_documento'
     | '/(admin)/_layout/documentos/'
   fileRoutesById: FileRoutesById
@@ -112,6 +136,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiDocumentsCategoriesRoute: typeof ApiDocumentsCategoriesRoute
+  ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -149,6 +175,20 @@ declare module '@tanstack/react-router' {
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/documents/categories': {
+      id: '/api/documents/categories'
+      path: '/api/documents/categories'
+      fullPath: '/api/documents/categories'
+      preLoaderRoute: typeof ApiDocumentsCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/documents/types': {
+      id: '/api/documents/types'
+      path: '/api/documents/types'
+      fullPath: '/api/documents/types'
+      preLoaderRoute: typeof ApiDocumentsTypesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(admin)/_layout/documentos/': {
@@ -191,6 +231,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   adminLayoutRoute: adminLayoutRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiDocumentsCategoriesRoute: ApiDocumentsCategoriesRoute,
+  ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
