@@ -12,12 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
 import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
-import { Route as adminLayoutUsuariosRouteImport } from './routes/(admin)/_layout/usuarios'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ApiDocumentsCategoriesRouteImport } from './routes/api/documents/categories'
 import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as adminLayoutDocumentosIndexRouteImport } from './routes/(admin)/_layout/documentos/index'
 import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './routes/(admin)/_layout/documentos/novo_documento'
+import { Route as adminLayoutUsuariosIndexRouteImport } from './routes/(admin)/_layout/usuarios/index'
+import { Route as adminLayoutUsuariosNovo_usuarioRouteImport } from './routes/(admin)/_layout/usuarios/novo_usuario'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,11 +32,6 @@ const adminLayoutRoute = adminLayoutRouteImport.update({
 const adminLayoutDashboardRoute = adminLayoutDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => adminLayoutRoute,
-} as any)
-const adminLayoutUsuariosRoute = adminLayoutUsuariosRouteImport.update({
-  id: '/usuarios',
-  path: '/usuarios',
   getParentRoute: () => adminLayoutRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -65,71 +61,89 @@ const adminLayoutDocumentosNovo_documentoRoute =
     path: '/documentos/novo_documento',
     getParentRoute: () => adminLayoutRoute,
   } as any)
+const adminLayoutUsuariosIndexRoute =
+  adminLayoutUsuariosIndexRouteImport.update({
+    id: '/usuarios/',
+    path: '/usuarios/',
+    getParentRoute: () => adminLayoutRoute,
+  } as any)
+const adminLayoutUsuariosNovo_usuarioRoute =
+  adminLayoutUsuariosNovo_usuarioRouteImport.update({
+    id: '/usuarios/novo_usuario',
+    path: '/usuarios/novo_usuario',
+    getParentRoute: () => adminLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof adminLayoutDashboardRoute
-  '/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
+  '/usuarios/novo_usuario': typeof adminLayoutUsuariosNovo_usuarioRoute
   '/documentos/': typeof adminLayoutDocumentosIndexRoute
+  '/usuarios/': typeof adminLayoutUsuariosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof adminLayoutDashboardRoute
-  '/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
+  '/usuarios/novo_usuario': typeof adminLayoutUsuariosNovo_usuarioRoute
   '/documentos': typeof adminLayoutDocumentosIndexRoute
+  '/usuarios': typeof adminLayoutUsuariosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(admin)/_layout': typeof adminLayoutRouteWithChildren
   '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
-  '/(admin)/_layout/usuarios': typeof adminLayoutUsuariosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/(admin)/_layout/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
+  '/(admin)/_layout/usuarios/novo_usuario': typeof adminLayoutUsuariosNovo_usuarioRoute
   '/(admin)/_layout/documentos/': typeof adminLayoutDocumentosIndexRoute
+  '/(admin)/_layout/usuarios/': typeof adminLayoutUsuariosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/usuarios'
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/types'
     | '/documentos/novo_documento'
+    | '/usuarios/novo_usuario'
     | '/documentos/'
+    | '/usuarios/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
-    | '/usuarios'
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/types'
     | '/documentos/novo_documento'
+    | '/usuarios/novo_usuario'
     | '/documentos'
+    | '/usuarios'
   id:
     | '__root__'
     | '/'
     | '/(admin)/_layout'
     | '/(admin)/_layout/dashboard'
-    | '/(admin)/_layout/usuarios'
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/types'
     | '/(admin)/_layout/documentos/novo_documento'
+    | '/(admin)/_layout/usuarios/novo_usuario'
     | '/(admin)/_layout/documentos/'
+    | '/(admin)/_layout/usuarios/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -161,13 +175,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof adminLayoutDashboardRouteImport
-      parentRoute: typeof adminLayoutRoute
-    }
-    '/(admin)/_layout/usuarios': {
-      id: '/(admin)/_layout/usuarios'
-      path: '/usuarios'
-      fullPath: '/usuarios'
-      preLoaderRoute: typeof adminLayoutUsuariosRouteImport
       parentRoute: typeof adminLayoutRoute
     }
     '/api/auth/$': {
@@ -205,22 +212,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminLayoutDocumentosNovo_documentoRouteImport
       parentRoute: typeof adminLayoutRoute
     }
+    '/(admin)/_layout/usuarios/': {
+      id: '/(admin)/_layout/usuarios/'
+      path: '/usuarios'
+      fullPath: '/usuarios/'
+      preLoaderRoute: typeof adminLayoutUsuariosIndexRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
+    '/(admin)/_layout/usuarios/novo_usuario': {
+      id: '/(admin)/_layout/usuarios/novo_usuario'
+      path: '/usuarios/novo_usuario'
+      fullPath: '/usuarios/novo_usuario'
+      preLoaderRoute: typeof adminLayoutUsuariosNovo_usuarioRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
   }
 }
 
 interface adminLayoutRouteChildren {
   adminLayoutDashboardRoute: typeof adminLayoutDashboardRoute
-  adminLayoutUsuariosRoute: typeof adminLayoutUsuariosRoute
   adminLayoutDocumentosNovo_documentoRoute: typeof adminLayoutDocumentosNovo_documentoRoute
+  adminLayoutUsuariosNovo_usuarioRoute: typeof adminLayoutUsuariosNovo_usuarioRoute
   adminLayoutDocumentosIndexRoute: typeof adminLayoutDocumentosIndexRoute
+  adminLayoutUsuariosIndexRoute: typeof adminLayoutUsuariosIndexRoute
 }
 
 const adminLayoutRouteChildren: adminLayoutRouteChildren = {
   adminLayoutDashboardRoute: adminLayoutDashboardRoute,
-  adminLayoutUsuariosRoute: adminLayoutUsuariosRoute,
   adminLayoutDocumentosNovo_documentoRoute:
     adminLayoutDocumentosNovo_documentoRoute,
+  adminLayoutUsuariosNovo_usuarioRoute: adminLayoutUsuariosNovo_usuarioRoute,
   adminLayoutDocumentosIndexRoute: adminLayoutDocumentosIndexRoute,
+  adminLayoutUsuariosIndexRoute: adminLayoutUsuariosIndexRoute,
 }
 
 const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(

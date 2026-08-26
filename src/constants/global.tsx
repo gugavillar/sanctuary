@@ -1,5 +1,7 @@
 import { FileScan, Gauge, Users2 } from 'lucide-react'
 
+export const FIRST_PASSWORD = '123456'
+
 export const MENU_ITEMS = [
 	{
 		icon: <Gauge />,

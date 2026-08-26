@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  '@tanstack/router-ssr-query-core@1.169.1':
-    hash: 7b16cd8c1ade8e98385261fe021d344f65f25613bd1a545ad15d120350c32a2d
-    path: patches/@tanstack__router-ssr-query-core@1.169.1.patch
-
 importers:
 
   .:
@@ -70,9 +65,15 @@ importers:
       react-hook-form:
         specifier: ^7.86.0
         version: 7.86.0(react@19.2.8)
+      react-merge-refs:
+        specifier: ^3.0.2
+        version: 3.0.2(react@19.2.8)
       react-number-format:
         specifier: ^5.4.5
         version: 5.4.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react-toastify:
+        specifier: ^11.1.0
+        version: 11.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       tailwindcss:
         specifier: ^4.1.18
         version: 4.3.3
@@ -2457,11 +2458,25 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
 
+  react-merge-refs@3.0.2:
+    resolution: {integrity: sha512-MSZAfwFfdbEvwkKWP5EI5chuLYnNUxNS7vyS0i1Jp+wtd8J4Ga2ddzhaE68aMol2Z4vCnRM/oGOo1a3V75UPlw==}
+    peerDependencies:
+      react: '>=16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+
   react-number-format@5.4.5:
     resolution: {integrity: sha512-y8O2yHHj3w0aE9XO8d2BCcUOOdQTRSVq+WIuMlLVucAm5XNjJAy+BoOJiuQMldVYVOKTMyvVNfnbl2Oqp+YxGw==}
     peerDependencies:
       react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  react-toastify@11.1.0:
+    resolution: {integrity: sha512-e9h23x3phN0wbFeB6yovmWp7lobzV4CaCH0LO8nVP6H7Y+3GbcLpIzMm9dJhcp1RXbpyfvjgpfXqO80QAmn7sg==}
+    peerDependencies:
+      react: ^18 || ^19
+      react-dom: ^18 || ^19
 
   react@19.2.8:
     resolution: {integrity: sha512-PWaYA1L/q9u2u7xYQi+Y3L3Yfnie7XyLeaJICV1MGD6LprsBxcAqGjYyr0eY3p+QdsA+x/Irkt4Qif8D63+Sbw==}
@@ -3726,7 +3741,7 @@ snapshots:
       '@tanstack/query-core': 5.102.3
       '@tanstack/react-query': 5.102.3(react@19.2.8)
       '@tanstack/react-router': 1.170.31(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@tanstack/router-ssr-query-core': 1.169.1(patch_hash=7b16cd8c1ade8e98385261fe021d344f65f25613bd1a545ad15d120350c32a2d)(@tanstack/query-core@5.102.3)(@tanstack/router-core@1.171.26)
+      '@tanstack/router-ssr-query-core': 1.169.1(@tanstack/query-core@5.102.3)(@tanstack/router-core@1.171.26)
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
     transitivePeerDependencies:
@@ -3881,7 +3896,7 @@ snapshots:
       - supports-color
       - unloader
 
-  '@tanstack/router-ssr-query-core@1.169.1(patch_hash=7b16cd8c1ade8e98385261fe021d344f65f25613bd1a545ad15d120350c32a2d)(@tanstack/query-core@5.102.3)(@tanstack/router-core@1.171.26)':
+  '@tanstack/router-ssr-query-core@1.169.1(@tanstack/query-core@5.102.3)(@tanstack/router-core@1.171.26)':
     dependencies:
       '@tanstack/query-core': 5.102.3
       '@tanstack/router-core': 1.171.26
@@ -4960,8 +4975,18 @@ snapshots:
     dependencies:
       react: 19.2.8
 
+  react-merge-refs@3.0.2(react@19.2.8):
+    optionalDependencies:
+      react: 19.2.8
+
   react-number-format@5.4.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
+  react-toastify@11.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      clsx: 2.1.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 

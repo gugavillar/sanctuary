@@ -1,5 +1,6 @@
 import type { QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
+import { ToastContainer } from 'react-toastify'
 
 import appCss from '../styles.css?url'
 
@@ -35,6 +36,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				{children}
+				<ToastContainer autoClose={5000} closeOnClick pauseOnFocusLoss pauseOnHover position="top-right" />
 				<Scripts />
 			</body>
 		</html>

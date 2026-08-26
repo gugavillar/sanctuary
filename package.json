@@ -41,7 +41,9 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.86.0",
+    "react-merge-refs": "^3.0.2",
     "react-number-format": "^5.4.5",
+    "react-toastify": "^11.1.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.4.3"
   },
@@ -65,9 +67,6 @@
       "lightningcss",
       "@prisma/engines",
       "prisma"
-    ],
-    "patchedDependencies": {
-      "@tanstack/router-ssr-query-core@1.169.1": "patches/@tanstack__router-ssr-query-core@1.169.1.patch"
-    }
+    ]
   }
 }

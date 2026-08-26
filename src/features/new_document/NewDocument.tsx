@@ -80,7 +80,7 @@ export const NewDocument = () => {
 				</Button>
 				<h1 className="text-3xl">Novo documento</h1>
 			</div>
-			<div className="grid h-[80dvh] grid-cols-2 gap-6">
+			<div className="grid grid-cols-2 gap-6">
 				<form className="flex flex-col gap-6" name="new-document" onSubmit={handleSubmit(onSubmit)}>
 					<Input label="Título" placeholder="Título" {...register('title')} error={errors.title?.message} />
 					<div className="flex gap-6">
@@ -162,7 +162,7 @@ export const NewDocument = () => {
 					<Select error={errors.permission?.message} label="Permissão" options={[]} placeholder="Permissão" />
 					<Button
 						className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
-						// disabled={!isDirty || !isValid}
+						disabled={!isDirty || !isValid}
 						type="submit"
 					>
 						Salvar

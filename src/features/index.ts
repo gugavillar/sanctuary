@@ -1,3 +1,5 @@
 export * from './documents'
 export * from './login'
 export * from './new_document'
+export * from './new_user'
+export * from './users'

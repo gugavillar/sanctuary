@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import { Button, Input } from '#/components/forms'
 import { authClient } from '#/lib/auth-client'
@@ -28,7 +29,7 @@ export const Login = () => {
 		})
 
 		if (error) {
-			console.error(error.message)
+			toast.error('Email ou senha inválidos')
 			return
 		}
 
