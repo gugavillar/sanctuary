@@ -10,7 +10,7 @@ type HeaderAccessor = Extract<TableHeaderProps['headerLabels'][number]['accessor
 
 type RowsData = Array<
 	{
-		id: UUID
+		id: UUID | string
 		backgroundColor?: string
 	} & {
 		[K in Exclude<HeaderAccessor, 'backgroundColor'>]: string | number | ReactNode

@@ -4,14 +4,14 @@ import z from 'zod'
 const loginSchema = z.object({
 	email: z
 		.email({
-			message: 'Email inválido',
+			error: 'Email inválido',
 		})
-		.min(1, 'Campo obrigatório'),
+		.min(1, { error: 'Campo obrigatório' }),
 	password: z
 		.string({ error: 'Campo obrigatório' })
-		.refine((value) => !!value?.length, { message: 'Campo obrigatório' })
-		.refine((value) => value.length >= 6, {
-			message: 'Password deve ter no mínimo 6 caracteres',
+		.refine((value) => !!value?.length, { error: 'Campo obrigatório' })
+		.refine((value) => value.length >= 8, {
+			error: 'Password deve ter no mínimo 8 caracteres',
 		}),
 })
 

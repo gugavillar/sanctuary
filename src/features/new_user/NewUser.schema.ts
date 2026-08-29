@@ -11,6 +11,7 @@ const newUserSchema = z.object({
 		.min(1, { error: 'Campo obrigatório' })
 		.refine((value) => Boolean(value.trim()), { error: 'O nome não pode ser vazio' })
 		.transform((value) => value.trim()),
+	permission: z.string({ error: 'Campo obrigatório' }).min(1, { error: 'Campo obrigatório' }),
 })
 
 export type NewUserSchema = z.infer<typeof newUserSchema>
