@@ -9,4 +9,4 @@ export const createQueryClient = () =>
 		},
 	})
 
-export { useQuery } from '@tanstack/react-query'
+export { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'

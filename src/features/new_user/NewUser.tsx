@@ -1,43 +1,64 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import axios from 'axios'
 import { ChevronLeft } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { Button, Input, Select } from '#/components/forms'
-import { FIRST_PASSWORD } from '#/constants'
-import { authClient } from '#/lib/auth-client'
+import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
+import { createUser } from '#/services/users/usecase/createUser'
 
 import { type NewUserSchema, newUserResolver } from './NewUser.schema'
 
+const ROLE_OPTIONS = [
+	{ label: 'Usuário', value: 'USER' },
+	{ label: 'Administrador', value: 'ADMIN' },
+]
+
+const PERMISSION_LEVEL_OPTIONS = [
+	{ label: 'Sem acesso', value: 'NONE' },
+	{ label: 'Visualizar', value: 'VIEW' },
+	{ label: 'Visualizar e adicionar', value: 'VIEW_AND_ADD' },
+]
+
 export const NewUser = () => {
 	const navigate = useNavigate()
+	const { data: categories } = useSuspenseQuery(documentCategoryQuery())
 	const {
+		control,
 		register,
 		handleSubmit,
 		formState: { errors, isDirty, isValid },
 		reset,
 	} = useForm<NewUserSchema>({
 		defaultValues: {
+			categoryPermissions: Object.fromEntries(categories.map((category) => [category.value, 'NONE'])),
 			email: '',
 			name: '',
+			role: 'USER',
 		},
 		mode: 'onChange',
 		resolver: newUserResolver,
 	})
+	const role = useWatch({ control, name: 'role' })
 
 	const handleBack = () => {
 		navigate({ to: '/usuarios' })
 	}
 
 	const onSubmit = async (data: NewUserSchema) => {
-		const response = await authClient.signUp.email({
-			email: data.email,
-			name: data.name,
-			password: FIRST_PASSWORD,
-		})
-
-		if (response.error) {
-			if (response.error.code === 'USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL') {
+		try {
+			await createUser({
+				email: data.email,
+				name: data.name,
+				permissions: Object.entries(data.categoryPermissions)
+					.filter(([, level]) => level !== 'NONE')
+					.map(([categoryId, level]) => ({ categoryId, level: level as 'VIEW' | 'VIEW_AND_ADD' })),
+				role: data.role,
+			})
+		} catch (error) {
+			if (axios.isAxiosError(error) && error.response?.status === 409) {
 				return toast.error('Email já cadastrado')
 			}
 			return toast.error('Falha ao criar usuário')
@@ -59,7 +80,22 @@ export const NewUser = () => {
 			<form className="flex max-w-md flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
 				<Input {...register('name')} error={errors.name?.message} label="Nome" placeholder="Nome" />
 				<Input {...register('email')} error={errors.email?.message} label="Email" placeholder="email@example.com" />
-				<Select error={errors.permission?.message} label="Permissão" options={[]} placeholder="Permissão" />
+				<Select
+					error={errors.role?.message}
+					label="Papel"
+					options={ROLE_OPTIONS}
+					placeholder="Papel"
+					{...register('role')}
+				/>
+				{role === 'USER' &&
+					categories.map((category) => (
+						<Select
+							key={category.value}
+							label={`Permissão — ${category.label}`}
+							options={PERMISSION_LEVEL_OPTIONS}
+							{...register(`categoryPermissions.${category.value}`)}
+						/>
+					))}
 				<Button
 					className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
 					disabled={!isDirty || !isValid}

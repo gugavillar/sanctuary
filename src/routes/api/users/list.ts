@@ -16,6 +16,7 @@ export const Route = createFileRoute('/api/users/list')({
 							email: true,
 							id: true,
 							name: true,
+							role: true,
 						},
 						...(search && {
 							where: {

@@ -4,6 +4,7 @@ export type GetUsersReturn = {
 	id: string
 	name: string
 	email: string
+	role: 'ADMIN' | 'USER'
 }
 
 export type GetUsersParams = {

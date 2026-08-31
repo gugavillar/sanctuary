@@ -3,11 +3,14 @@ import { PlusCircleIcon } from 'lucide-react'
 
 import { Button, Input } from '#/components/forms'
 import { Table } from '#/components/ui'
+import { useQuery } from '#/lib/query-client'
+import { documentsQuery } from '#/services/documents/hooks/useGetDocuments'
 
 import { HEADER_LABELS_DOCUMENTS } from './Documents.utils'
 
 export const Documents = () => {
 	const navigate = useNavigate()
+	const { data: documents, isLoading } = useQuery(documentsQuery())
 
 	const handleAddDocument = () => {
 		navigate({ to: '/documentos/novo_documento' })
@@ -22,7 +25,7 @@ export const Documents = () => {
 					<span>Adicionar documento</span>
 				</Button>
 			</div>
-			<Table headerLabels={HEADER_LABELS_DOCUMENTS} isLoading={false} />
+			<Table bodyData={documents ?? []} headerLabels={HEADER_LABELS_DOCUMENTS} isLoading={isLoading} />
 		</div>
 	)
 }

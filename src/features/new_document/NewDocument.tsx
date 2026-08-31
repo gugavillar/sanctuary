@@ -3,9 +3,11 @@ import { useNavigate } from '@tanstack/react-router'
 import { ChevronLeft, PlusCircle, Trash2 } from 'lucide-react'
 import { type ChangeEvent, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { twMerge } from 'tailwind-merge'
 
 import { Button, FileInput, Input, MaskedInput, Select } from '#/components/forms'
+import { useCreateDocument } from '#/services/documents/hooks/useCreateDocument'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
 import { documentTypeQuery } from '#/services/documents/hooks/useGetTypes'
 
@@ -31,7 +33,6 @@ export const NewDocument = () => {
 			description: '',
 			file: undefined,
 			identification: '',
-			permission: '',
 			tags: [
 				{
 					tag: '',
@@ -48,6 +49,7 @@ export const NewDocument = () => {
 		name: 'tags',
 	})
 	const navigate = useNavigate()
+	const createDocumentMutation = useCreateDocument()
 
 	const handleBack = () => {
 		navigate({ to: '/documentos' })
@@ -67,8 +69,23 @@ export const NewDocument = () => {
 		setUrlFile('')
 	}
 
-	const onSubmit = (data: NewDocumentSchema) => {
-		console.log(data)
+	const onSubmit = async (data: NewDocumentSchema) => {
+		try {
+			await createDocumentMutation.mutateAsync({
+				categoryId: data.category,
+				date: data.date,
+				description: data.description,
+				identification: data.identification,
+				tags: data.tags?.map((item) => item.tag) ?? [],
+				title: data.title,
+				typeId: data.type,
+			})
+		} catch {
+			return toast.error('Falha ao criar documento')
+		}
+
+		toast.success('Documento criado com sucesso')
+		navigate({ to: '/documentos' })
 	}
 
 	return (
@@ -159,7 +176,6 @@ export const NewDocument = () => {
 						onChange={handleFileChange}
 						watch={watch}
 					/>
-					<Select error={errors.permission?.message} label="Permissão" options={[]} placeholder="Permissão" />
 					<Button
 						className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
 						disabled={!isDirty || !isValid}

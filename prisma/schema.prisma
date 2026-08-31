@@ -1,20 +1,33 @@
 generator client {
   provider = "prisma-client"
-  output   = "../src/prisma/generated/prisma"
+  output   = "../prisma/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
+enum PermissionLevel {
+  VIEW
+  VIEW_AND_ADD
+}
+
 model Document_Types {
-  id   String @id @default(uuid())
-  type String @unique
+  id        String     @id @default(uuid())
+  type      String     @unique
+  documents Document[]
 }
 
 model Document_Categories {
-  id       String @id @default(uuid())
-  category String @unique
+  id                  String               @id @default(uuid())
+  category            String               @unique
+  categoryPermissions CategoryPermission[]
+  documents           Document[]
 }
 
 model User {
@@ -23,13 +36,53 @@ model User {
   email         String
   emailVerified Boolean   @default(false)
   image         String?
+  role          Role      @default(USER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
 
+  categoryPermissions CategoryPermission[]
+  documents           Document[]           @relation("DocumentCreatedBy")
+
   @@unique([email])
   @@map("user")
+}
+
+model CategoryPermission {
+  id         String          @id @default(uuid())
+  userId     String
+  categoryId String
+  level      PermissionLevel
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Document_Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId])
+  @@map("category_permission")
+}
+
+model Document {
+  id             String    @id @default(uuid())
+  title          String
+  typeId         String
+  categoryId     String
+  date           DateTime?
+  identification String?
+  description    String?
+  tags           String[]  @default([])
+  filePath       String?
+  createdById    String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  type      Document_Types      @relation(fields: [typeId], references: [id], onDelete: Restrict)
+  category  Document_Categories @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdBy User                @relation("DocumentCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+
+  @@map("document")
 }
 
 model Session {

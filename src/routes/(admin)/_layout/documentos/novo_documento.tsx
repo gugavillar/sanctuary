@@ -1,10 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { NewDocument, NewDocumentSkeleton } from '#/features'
+import { hasAnyAddPermission } from '#/lib/permissions'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
 import { documentTypeQuery } from '#/services/documents/hooks/useGetTypes'
 
 export const Route = createFileRoute('/(admin)/_layout/documentos/novo_documento')({
+	beforeLoad: ({ context }) => {
+		if (!hasAnyAddPermission(context.session.user, context.permissions)) {
+			throw redirect({ to: '/documentos' })
+		}
+	},
 	component: NewDocumentPage,
 	loader: async ({ context }) => {
 		await Promise.all([

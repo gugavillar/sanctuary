@@ -1,14 +1,8 @@
 import { prisma } from "#/db"
 
 const CATEGORIES = [
-	'Administrativo',
-	'Financeiro',
-	'Membros',
-	'Patrimônio',
-	'Eventos',
-	'Ministérios',
-	'Jurídico',
-	'Histórico'
+	'Secretaria',
+	'Tesouraria',
 ]
 
 const TYPES = [
@@ -31,10 +25,12 @@ const TYPES = [
 async function main() {
   try {
     await prisma.document_Categories.createMany({
-      data: CATEGORIES.map((name) => ({ category: name }))
+      data: CATEGORIES.map((name) => ({ category: name })),
+      skipDuplicates: true,
     })
     await prisma.document_Types.createMany({
-      data: TYPES.map((name) => ({ type: name }))
+      data: TYPES.map((name) => ({ type: name })),
+      skipDuplicates: true,
     })
 	} catch (error) {
 		console.error('Erro no seed:', error)

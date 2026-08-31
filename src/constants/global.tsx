@@ -14,6 +14,7 @@ export const MENU_ITEMS = [
 		to: '/documentos',
 	},
 	{
+		adminOnly: true,
 		icon: <Users2 />,
 		label: 'Usuários',
 		to: '/usuarios',

@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Users } from '#/features'
 import { usersQuery } from '#/services/users/hooks/useGetUsers'
 
-export const Route = createFileRoute('/(admin)/_layout/usuarios/')({
+export const Route = createFileRoute('/(admin)/_layout/usuarios/_layout/')({
 	component: UsersPage,
 	loader: async ({ context }) => {
 		await context.queryClient.query(usersQuery({ search: '' }))

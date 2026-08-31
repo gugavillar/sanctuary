@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import { Sidebar } from '#/components/ui'
 import { getSession } from '#/lib/get-session'
+import { getUserPermissions } from '#/lib/get-user-permissions'
 
 export const Route = createFileRoute('/(admin)/_layout')({
 	beforeLoad: async () => {
@@ -11,7 +12,10 @@ export const Route = createFileRoute('/(admin)/_layout')({
 			throw redirect({ to: '/' })
 		}
 
+		const permissions = await getUserPermissions({ data: { userId: session.user.id } })
+
 		return {
+			permissions,
 			session,
 		}
 	},
@@ -19,9 +23,11 @@ export const Route = createFileRoute('/(admin)/_layout')({
 })
 
 function AdminLayout() {
+	const { session } = Route.useRouteContext()
+
 	return (
 		<div className="grid h-dvh grid-cols-[14rem_1fr]">
-			<Sidebar />
+			<Sidebar isAdmin={session.user.role === 'ADMIN'} />
 			<div className="flex flex-col overflow-y-auto p-6">
 				<Outlet />
 			</div>

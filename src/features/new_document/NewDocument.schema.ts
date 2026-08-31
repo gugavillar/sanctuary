@@ -43,7 +43,6 @@ const newDocumentSchema = z.object({
 		.refine((value) => value === undefined || value === '' || value.trim().length > 0, {
 			error: 'O campo pode ser vazio ou não pode conter apenas espaços em branco',
 		}),
-	permission: z.string({ error: 'Campo obrigatório' }).min(1, { error: 'Campo obrigatório' }),
 	tags: z
 		.array(
 			z.object({

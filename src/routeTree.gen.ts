@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
+import { Route as ApiDocumentsRouteImport } from './routes/api/documents'
+import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ApiDocumentsCategoriesRouteImport } from './routes/api/documents/categories'
@@ -18,8 +20,9 @@ import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/ty
 import { Route as ApiUsersListRouteImport } from './routes/api/users/list'
 import { Route as adminLayoutDocumentosIndexRouteImport } from './routes/(admin)/_layout/documentos/index'
 import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './routes/(admin)/_layout/documentos/novo_documento'
-import { Route as adminLayoutUsuariosIndexRouteImport } from './routes/(admin)/_layout/usuarios/index'
-import { Route as adminLayoutUsuariosNovo_usuarioRouteImport } from './routes/(admin)/_layout/usuarios/novo_usuario'
+import { Route as adminLayoutUsuariosLayoutRouteImport } from './routes/(admin)/_layout/usuarios/_layout'
+import { Route as adminLayoutUsuariosLayoutIndexRouteImport } from './routes/(admin)/_layout/usuarios/_layout/index'
+import { Route as adminLayoutUsuariosLayoutNovo_usuarioRouteImport } from './routes/(admin)/_layout/usuarios/_layout/novo_usuario'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,6 +31,16 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const adminLayoutRoute = adminLayoutRouteImport.update({
   id: '/(admin)/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDocumentsRoute = ApiDocumentsRouteImport.update({
+  id: '/api/documents',
+  path: '/api/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersRoute = ApiUsersRouteImport.update({
+  id: '/api/users',
+  path: '/api/users',
   getParentRoute: () => rootRouteImport,
 } as any)
 const adminLayoutDashboardRoute = adminLayoutDashboardRouteImport.update({
@@ -41,19 +54,19 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDocumentsCategoriesRoute = ApiDocumentsCategoriesRouteImport.update({
-  id: '/api/documents/categories',
-  path: '/api/documents/categories',
-  getParentRoute: () => rootRouteImport,
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => ApiDocumentsRoute,
 } as any)
 const ApiDocumentsTypesRoute = ApiDocumentsTypesRouteImport.update({
-  id: '/api/documents/types',
-  path: '/api/documents/types',
-  getParentRoute: () => rootRouteImport,
+  id: '/types',
+  path: '/types',
+  getParentRoute: () => ApiDocumentsRoute,
 } as any)
 const ApiUsersListRoute = ApiUsersListRouteImport.update({
-  id: '/api/users/list',
-  path: '/api/users/list',
-  getParentRoute: () => rootRouteImport,
+  id: '/list',
+  path: '/list',
+  getParentRoute: () => ApiUsersRoute,
 } as any)
 const adminLayoutDocumentosIndexRoute =
   adminLayoutDocumentosIndexRouteImport.update({
@@ -67,104 +80,125 @@ const adminLayoutDocumentosNovo_documentoRoute =
     path: '/documentos/novo_documento',
     getParentRoute: () => adminLayoutRoute,
   } as any)
-const adminLayoutUsuariosIndexRoute =
-  adminLayoutUsuariosIndexRouteImport.update({
-    id: '/usuarios/',
-    path: '/usuarios/',
+const adminLayoutUsuariosLayoutRoute =
+  adminLayoutUsuariosLayoutRouteImport.update({
+    id: '/usuarios/_layout',
+    path: '/usuarios',
     getParentRoute: () => adminLayoutRoute,
   } as any)
-const adminLayoutUsuariosNovo_usuarioRoute =
-  adminLayoutUsuariosNovo_usuarioRouteImport.update({
-    id: '/usuarios/novo_usuario',
-    path: '/usuarios/novo_usuario',
-    getParentRoute: () => adminLayoutRoute,
+const adminLayoutUsuariosLayoutIndexRoute =
+  adminLayoutUsuariosLayoutIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => adminLayoutUsuariosLayoutRoute,
+  } as any)
+const adminLayoutUsuariosLayoutNovo_usuarioRoute =
+  adminLayoutUsuariosLayoutNovo_usuarioRouteImport.update({
+    id: '/novo_usuario',
+    path: '/novo_usuario',
+    getParentRoute: () => adminLayoutUsuariosLayoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/documents': typeof ApiDocumentsRouteWithChildren
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
-  '/usuarios/novo_usuario': typeof adminLayoutUsuariosNovo_usuarioRoute
+  '/usuarios': typeof adminLayoutUsuariosLayoutRouteWithChildren
   '/documentos/': typeof adminLayoutDocumentosIndexRoute
-  '/usuarios/': typeof adminLayoutUsuariosIndexRoute
+  '/usuarios/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
+  '/usuarios/': typeof adminLayoutUsuariosLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/documents': typeof ApiDocumentsRouteWithChildren
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
-  '/usuarios/novo_usuario': typeof adminLayoutUsuariosNovo_usuarioRoute
   '/documentos': typeof adminLayoutDocumentosIndexRoute
-  '/usuarios': typeof adminLayoutUsuariosIndexRoute
+  '/usuarios/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
+  '/usuarios': typeof adminLayoutUsuariosLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(admin)/_layout': typeof adminLayoutRouteWithChildren
+  '/api/documents': typeof ApiDocumentsRouteWithChildren
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/(admin)/_layout/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
-  '/(admin)/_layout/usuarios/novo_usuario': typeof adminLayoutUsuariosNovo_usuarioRoute
+  '/(admin)/_layout/usuarios/_layout': typeof adminLayoutUsuariosLayoutRouteWithChildren
   '/(admin)/_layout/documentos/': typeof adminLayoutDocumentosIndexRoute
-  '/(admin)/_layout/usuarios/': typeof adminLayoutUsuariosIndexRoute
+  '/(admin)/_layout/usuarios/_layout/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
+  '/(admin)/_layout/usuarios/_layout/': typeof adminLayoutUsuariosLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/documents'
+    | '/api/users'
     | '/dashboard'
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/types'
     | '/api/users/list'
     | '/documentos/novo_documento'
-    | '/usuarios/novo_usuario'
+    | '/usuarios'
     | '/documentos/'
+    | '/usuarios/novo_usuario'
     | '/usuarios/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/documents'
+    | '/api/users'
     | '/dashboard'
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/types'
     | '/api/users/list'
     | '/documentos/novo_documento'
-    | '/usuarios/novo_usuario'
     | '/documentos'
+    | '/usuarios/novo_usuario'
     | '/usuarios'
   id:
     | '__root__'
     | '/'
     | '/(admin)/_layout'
+    | '/api/documents'
+    | '/api/users'
     | '/(admin)/_layout/dashboard'
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/types'
     | '/api/users/list'
     | '/(admin)/_layout/documentos/novo_documento'
-    | '/(admin)/_layout/usuarios/novo_usuario'
+    | '/(admin)/_layout/usuarios/_layout'
     | '/(admin)/_layout/documentos/'
-    | '/(admin)/_layout/usuarios/'
+    | '/(admin)/_layout/usuarios/_layout/novo_usuario'
+    | '/(admin)/_layout/usuarios/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
+  ApiDocumentsRoute: typeof ApiDocumentsRouteWithChildren
+  ApiUsersRoute: typeof ApiUsersRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiDocumentsCategoriesRoute: typeof ApiDocumentsCategoriesRoute
-  ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
-  ApiUsersListRoute: typeof ApiUsersListRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -183,6 +217,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/documents': {
+      id: '/api/documents'
+      path: '/api/documents'
+      fullPath: '/api/documents'
+      preLoaderRoute: typeof ApiDocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users': {
+      id: '/api/users'
+      path: '/api/users'
+      fullPath: '/api/users'
+      preLoaderRoute: typeof ApiUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(admin)/_layout/dashboard': {
       id: '/(admin)/_layout/dashboard'
       path: '/dashboard'
@@ -199,24 +247,24 @@ declare module '@tanstack/react-router' {
     }
     '/api/documents/categories': {
       id: '/api/documents/categories'
-      path: '/api/documents/categories'
+      path: '/categories'
       fullPath: '/api/documents/categories'
       preLoaderRoute: typeof ApiDocumentsCategoriesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiDocumentsRoute
     }
     '/api/documents/types': {
       id: '/api/documents/types'
-      path: '/api/documents/types'
+      path: '/types'
       fullPath: '/api/documents/types'
       preLoaderRoute: typeof ApiDocumentsTypesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiDocumentsRoute
     }
     '/api/users/list': {
       id: '/api/users/list'
-      path: '/api/users/list'
+      path: '/list'
       fullPath: '/api/users/list'
       preLoaderRoute: typeof ApiUsersListRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiUsersRoute
     }
     '/(admin)/_layout/documentos/': {
       id: '/(admin)/_layout/documentos/'
@@ -232,51 +280,98 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminLayoutDocumentosNovo_documentoRouteImport
       parentRoute: typeof adminLayoutRoute
     }
-    '/(admin)/_layout/usuarios/': {
-      id: '/(admin)/_layout/usuarios/'
+    '/(admin)/_layout/usuarios/_layout': {
+      id: '/(admin)/_layout/usuarios/_layout'
       path: '/usuarios'
-      fullPath: '/usuarios/'
-      preLoaderRoute: typeof adminLayoutUsuariosIndexRouteImport
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof adminLayoutUsuariosLayoutRouteImport
       parentRoute: typeof adminLayoutRoute
     }
-    '/(admin)/_layout/usuarios/novo_usuario': {
-      id: '/(admin)/_layout/usuarios/novo_usuario'
-      path: '/usuarios/novo_usuario'
+    '/(admin)/_layout/usuarios/_layout/': {
+      id: '/(admin)/_layout/usuarios/_layout/'
+      path: '/'
+      fullPath: '/usuarios/'
+      preLoaderRoute: typeof adminLayoutUsuariosLayoutIndexRouteImport
+      parentRoute: typeof adminLayoutUsuariosLayoutRoute
+    }
+    '/(admin)/_layout/usuarios/_layout/novo_usuario': {
+      id: '/(admin)/_layout/usuarios/_layout/novo_usuario'
+      path: '/novo_usuario'
       fullPath: '/usuarios/novo_usuario'
-      preLoaderRoute: typeof adminLayoutUsuariosNovo_usuarioRouteImport
-      parentRoute: typeof adminLayoutRoute
+      preLoaderRoute: typeof adminLayoutUsuariosLayoutNovo_usuarioRouteImport
+      parentRoute: typeof adminLayoutUsuariosLayoutRoute
     }
   }
 }
 
+interface adminLayoutUsuariosLayoutRouteChildren {
+  adminLayoutUsuariosLayoutNovo_usuarioRoute: typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
+  adminLayoutUsuariosLayoutIndexRoute: typeof adminLayoutUsuariosLayoutIndexRoute
+}
+
+const adminLayoutUsuariosLayoutRouteChildren: adminLayoutUsuariosLayoutRouteChildren =
+  {
+    adminLayoutUsuariosLayoutNovo_usuarioRoute:
+      adminLayoutUsuariosLayoutNovo_usuarioRoute,
+    adminLayoutUsuariosLayoutIndexRoute: adminLayoutUsuariosLayoutIndexRoute,
+  }
+
+const adminLayoutUsuariosLayoutRouteWithChildren =
+  adminLayoutUsuariosLayoutRoute._addFileChildren(
+    adminLayoutUsuariosLayoutRouteChildren,
+  )
+
 interface adminLayoutRouteChildren {
   adminLayoutDashboardRoute: typeof adminLayoutDashboardRoute
   adminLayoutDocumentosNovo_documentoRoute: typeof adminLayoutDocumentosNovo_documentoRoute
-  adminLayoutUsuariosNovo_usuarioRoute: typeof adminLayoutUsuariosNovo_usuarioRoute
+  adminLayoutUsuariosLayoutRoute: typeof adminLayoutUsuariosLayoutRouteWithChildren
   adminLayoutDocumentosIndexRoute: typeof adminLayoutDocumentosIndexRoute
-  adminLayoutUsuariosIndexRoute: typeof adminLayoutUsuariosIndexRoute
 }
 
 const adminLayoutRouteChildren: adminLayoutRouteChildren = {
   adminLayoutDashboardRoute: adminLayoutDashboardRoute,
   adminLayoutDocumentosNovo_documentoRoute:
     adminLayoutDocumentosNovo_documentoRoute,
-  adminLayoutUsuariosNovo_usuarioRoute: adminLayoutUsuariosNovo_usuarioRoute,
+  adminLayoutUsuariosLayoutRoute: adminLayoutUsuariosLayoutRouteWithChildren,
   adminLayoutDocumentosIndexRoute: adminLayoutDocumentosIndexRoute,
-  adminLayoutUsuariosIndexRoute: adminLayoutUsuariosIndexRoute,
 }
 
 const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
   adminLayoutRouteChildren,
 )
 
+interface ApiDocumentsRouteChildren {
+  ApiDocumentsCategoriesRoute: typeof ApiDocumentsCategoriesRoute
+  ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
+}
+
+const ApiDocumentsRouteChildren: ApiDocumentsRouteChildren = {
+  ApiDocumentsCategoriesRoute: ApiDocumentsCategoriesRoute,
+  ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
+}
+
+const ApiDocumentsRouteWithChildren = ApiDocumentsRoute._addFileChildren(
+  ApiDocumentsRouteChildren,
+)
+
+interface ApiUsersRouteChildren {
+  ApiUsersListRoute: typeof ApiUsersListRoute
+}
+
+const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersListRoute: ApiUsersListRoute,
+}
+
+const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
+  ApiUsersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   adminLayoutRoute: adminLayoutRouteWithChildren,
+  ApiDocumentsRoute: ApiDocumentsRouteWithChildren,
+  ApiUsersRoute: ApiUsersRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiDocumentsCategoriesRoute: ApiDocumentsCategoriesRoute,
-  ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
-  ApiUsersListRoute: ApiUsersListRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

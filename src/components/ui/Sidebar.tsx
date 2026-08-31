@@ -19,7 +19,7 @@ const SidebarItem = ({ icon, label, to }: { icon: React.ReactNode; label: string
 	)
 }
 
-export const Sidebar = () => {
+export const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
 	const navigate = useNavigate()
 	const handleLogout = async () => {
 		await authClient.signOut()
@@ -34,8 +34,8 @@ export const Sidebar = () => {
 			</div>
 			<div className="mt-6">
 				<div className="flex flex-col gap-2.5">
-					{MENU_ITEMS.map((item) => (
-						<SidebarItem key={item.label} {...item} />
+					{MENU_ITEMS.filter((item) => !item.adminOnly || isAdmin).map((item) => (
+						<SidebarItem icon={item.icon} key={item.label} label={item.label} to={item.to} />
 					))}
 				</div>
 			</div>
