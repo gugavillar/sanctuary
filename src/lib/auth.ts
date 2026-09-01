@@ -5,7 +5,7 @@ import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { prisma } from '#/db'
 
 export const auth = betterAuth({
-	baseURL: 'http://localhost:3000',
+	baseURL: process.env.BETTER_AUTH_URL,
 	database: prismaAdapter(prisma, {
 		provider: 'postgresql',
 	}),
