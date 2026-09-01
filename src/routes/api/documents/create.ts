@@ -4,35 +4,11 @@ import { parse } from 'date-fns'
 
 import { prisma } from '#/db'
 import { auth } from '#/lib/auth'
-import { canAddToCategory, viewableCategoryIds } from '#/lib/permissions'
+import { canAddToCategory } from '#/lib/permissions'
 
-export const Route = createFileRoute('/api/documents')({
+export const Route = createFileRoute('/api/documents/create')({
 	server: {
 		handlers: {
-			GET: async () => {
-				const session = await auth.api.getSession({ headers: getRequestHeaders() })
-
-				if (!session) {
-					return Response.json({ error: 'Unauthorized' }, { status: 401 })
-				}
-
-				try {
-					const permissions = await prisma.categoryPermission.findMany({
-						select: { categoryId: true, level: true },
-						where: { userId: session.user.id },
-					})
-					const allowedCategoryIds = viewableCategoryIds(session.user, permissions)
-
-					const documents = await prisma.document.findMany({
-						include: { category: true, type: true },
-						orderBy: { createdAt: 'desc' },
-						where: allowedCategoryIds ? { categoryId: { in: allowedCategoryIds } } : undefined,
-					})
-					return Response.json({ data: documents }, { status: 200 })
-				} catch {
-					return Response.json({ error: 'Internal Server Error' }, { status: 500 })
-				}
-			},
 			POST: async ({ request }) => {
 				const session = await auth.api.getSession({ headers: getRequestHeaders() })
 

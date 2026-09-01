@@ -1,13 +1,13 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import axios from 'axios'
+import { isAxiosError } from 'axios'
 import { ChevronLeft } from 'lucide-react'
 import { useForm, useWatch } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { Button, Input, Select } from '#/components/forms'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
-import { createUser } from '#/services/users/usecase/createUser'
+import { useCreateUser } from '#/services/users/hooks/useCreateUser'
 
 import { type NewUserSchema, newUserResolver } from './NewUser.schema'
 
@@ -25,6 +25,7 @@ const PERMISSION_LEVEL_OPTIONS = [
 export const NewUser = () => {
 	const navigate = useNavigate()
 	const { data: categories } = useSuspenseQuery(documentCategoryQuery())
+	const { mutateAsync: createUserAsync, isPending } = useCreateUser()
 	const {
 		control,
 		register,
@@ -48,24 +49,28 @@ export const NewUser = () => {
 	}
 
 	const onSubmit = async (data: NewUserSchema) => {
-		try {
-			await createUser({
+		await createUserAsync(
+			{
 				email: data.email,
 				name: data.name,
 				permissions: Object.entries(data.categoryPermissions)
 					.filter(([, level]) => level !== 'NONE')
 					.map(([categoryId, level]) => ({ categoryId, level: level as 'VIEW' | 'VIEW_AND_ADD' })),
 				role: data.role,
-			})
-		} catch (error) {
-			if (axios.isAxiosError(error) && error.response?.status === 409) {
-				return toast.error('Email já cadastrado')
+			},
+			{
+				onError: (error) => {
+					if (isAxiosError(error) && error.response?.status === 409) {
+						return toast.error('Email já cadastrado')
+					}
+					toast.error('Falha ao criar usuário')
+				},
+				onSuccess: () => {
+					toast.success('Usuário criado com sucesso')
+					reset()
+				},
 			}
-			return toast.error('Falha ao criar usuário')
-		}
-
-		toast.success('Usuário criado com sucesso')
-		reset()
+		)
 	}
 
 	return (
@@ -82,9 +87,9 @@ export const NewUser = () => {
 				<Input {...register('email')} error={errors.email?.message} label="Email" placeholder="email@example.com" />
 				<Select
 					error={errors.role?.message}
-					label="Papel"
+					label="Tipo de usuário"
 					options={ROLE_OPTIONS}
-					placeholder="Papel"
+					placeholder="Tipo de usuário"
 					{...register('role')}
 				/>
 				{role === 'USER' &&
@@ -99,6 +104,7 @@ export const NewUser = () => {
 				<Button
 					className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
 					disabled={!isDirty || !isValid}
+					isLoading={isPending}
 					type="submit"
 				>
 					Salvar

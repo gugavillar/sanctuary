@@ -8,6 +8,6 @@ export type CreateUserParams = {
 }
 
 export const createUser = async (data: CreateUserParams) => {
-	const response = await api.post('/users', data)
+	const response = await api.post('/users/create', data)
 	return response.data
 }

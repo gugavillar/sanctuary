@@ -6,7 +6,7 @@ import { FIRST_PASSWORD } from '#/constants'
 import { prisma } from '#/db'
 import { auth } from '#/lib/auth'
 
-export const Route = createFileRoute('/api/users')({
+export const Route = createFileRoute('/api/users/create')({
 	server: {
 		handlers: {
 			POST: async ({ request }) => {

@@ -6,14 +6,19 @@ export const documentsQuery = () =>
 	queryOptions({
 		queryFn: getDocuments,
 		queryKey: ['documents'],
-		select: (data) =>
-			data.map((document) => ({
-				category: document.category.category,
-				description: document.description ?? '-',
-				id: document.id,
-				identification: document.identification ?? '-',
-				tags: document.tags.length ? document.tags.join(', ') : '-',
-				title: document.title,
-				type: document.type.type,
-			})),
+		select: (data) => {
+			return data.map((document) => {
+				const tags = document.tags.filter((tag) => tag.trim().length > 0)
+
+				return {
+					category: document.category.category,
+					description: document.description ?? '-',
+					id: document.id,
+					identification: document.identification ?? '-',
+					tags: tags.length ? tags.join(', ') : '-',
+					title: document.title,
+					type: document.type.type,
+				}
+			})
+		},
 	})

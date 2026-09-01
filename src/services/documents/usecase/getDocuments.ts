@@ -13,6 +13,6 @@ export type GetDocumentsReturn = {
 }
 
 export const getDocuments = async () => {
-	const response = await api.get<Array<GetDocumentsReturn>>('/documents')
+	const response = await api.get<Array<GetDocumentsReturn>>('/documents/list')
 	return response.data
 }

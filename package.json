@@ -9,7 +9,7 @@
     "dev": "vite dev --port 3000",
     "generate-routes": "tsr generate",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "node .output/server/index.mjs",
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",

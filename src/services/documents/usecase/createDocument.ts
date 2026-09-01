@@ -11,6 +11,6 @@ export type CreateDocumentParams = {
 }
 
 export const createDocument = async (data: CreateDocumentParams) => {
-	const response = await api.post('/documents', data)
+	const response = await api.post('/documents/create', data)
 	return response.data
 }

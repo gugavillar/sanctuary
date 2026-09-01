@@ -5,6 +5,18 @@ export type GetUsersReturn = {
 	name: string
 	email: string
 	role: 'ADMIN' | 'USER'
+	categoryPermissions: Array<{
+		category: {
+			id: string
+			category: string
+		}
+		categoryId: string
+		createdAt: string
+		id: string
+		level: 'VIEW' | 'VIEW_AND_ADD'
+		updatedAt: string
+		userId: string
+	}>
 }
 
 export type GetUsersParams = {

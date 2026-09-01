@@ -25,7 +25,7 @@ export const NewDocument = () => {
 		watch,
 		setValue,
 		handleSubmit,
-		formState: { errors, isDirty, isValid },
+		formState: { errors, isValid, isDirty },
 	} = useForm<NewDocumentSchema>({
 		defaultValues: {
 			category: '',
@@ -49,7 +49,7 @@ export const NewDocument = () => {
 		name: 'tags',
 	})
 	const navigate = useNavigate()
-	const createDocumentMutation = useCreateDocument()
+	const { isPending, mutateAsync: createDocumentAsync } = useCreateDocument()
 
 	const handleBack = () => {
 		navigate({ to: '/documentos' })
@@ -60,18 +60,18 @@ export const NewDocument = () => {
 		if (!file) return
 		setFile(file)
 		setUrlFile(`${URL.createObjectURL(file)}#toolbar=0&navpanes=0&scrollbar=0`)
-		setValue('file', file)
+		setValue('file', file, { shouldDirty: true, shouldValidate: true })
 	}
 
 	const handleRemoveFile = () => {
-		setValue('file', undefined)
+		setValue('file', undefined, { shouldDirty: true, shouldValidate: true })
 		setFile(undefined)
 		setUrlFile('')
 	}
 
 	const onSubmit = async (data: NewDocumentSchema) => {
 		try {
-			await createDocumentMutation.mutateAsync({
+			await createDocumentAsync({
 				categoryId: data.category,
 				date: data.date,
 				description: data.description,
@@ -102,18 +102,18 @@ export const NewDocument = () => {
 					<Input label="Título" placeholder="Título" {...register('title')} error={errors.title?.message} />
 					<div className="flex gap-6">
 						<Select
-							label="Tipo"
-							options={documentTypes}
-							placeholder="Tipo"
-							{...register('type')}
-							error={errors.type?.message}
-						/>
-						<Select
 							label="Categoria"
 							options={documentCategories}
 							placeholder="Categoria"
 							{...register('category')}
 							error={errors.category?.message}
+						/>
+						<Select
+							label="Tipo"
+							options={documentTypes}
+							placeholder="Tipo"
+							{...register('type')}
+							error={errors.type?.message}
 						/>
 					</div>
 					<div className="flex gap-6">
@@ -179,6 +179,7 @@ export const NewDocument = () => {
 					<Button
 						className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
 						disabled={!isDirty || !isValid}
+						isLoading={isPending}
 						type="submit"
 					>
 						Salvar

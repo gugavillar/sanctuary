@@ -5,10 +5,11 @@ import { createDocument } from '../usecase/createDocument'
 export const useCreateDocument = () => {
 	const queryClient = useQueryClient()
 
-	return useMutation({
+	const { mutateAsync, isPending } = useMutation({
 		mutationFn: createDocument,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['documents'] })
 		},
 	})
+	return { isPending, mutateAsync }
 }

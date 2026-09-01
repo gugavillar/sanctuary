@@ -8,5 +8,5 @@ export const Route = createFileRoute('/(admin)/_layout/usuarios/_layout')({
 			throw redirect({ to: '/dashboard' })
 		}
 	},
-	component: Outlet,
+	component: () => <Outlet />,
 })

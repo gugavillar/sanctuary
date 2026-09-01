@@ -13,6 +13,11 @@ export const Route = createFileRoute('/api/users/list')({
 							name: 'asc',
 						},
 						select: {
+							categoryPermissions: {
+								include: {
+									category: true,
+								},
+							},
 							email: true,
 							id: true,
 							name: true,

@@ -9,6 +9,10 @@ export const HEADER_LABELS_USERS = [
 	},
 	{
 		accessor: 'role',
+		label: 'Tipo',
+	},
+	{
+		accessor: 'permission',
 		label: 'Permissão',
 	},
 ]
