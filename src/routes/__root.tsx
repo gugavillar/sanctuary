@@ -26,6 +26,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 			},
 		],
 	}),
+	notFoundComponent: () => <p>Error</p>,
 	shellComponent: RootDocument,
 })
 
