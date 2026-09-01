@@ -1,4 +1,3 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { isAxiosError } from 'axios'
 import { ChevronLeft } from 'lucide-react'
@@ -6,6 +5,7 @@ import { useForm, useWatch } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { Button, Input, Select } from '#/components/forms'
+import { useSuspenseQuery } from '#/lib/query-client'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
 import { useCreateUser } from '#/services/users/hooks/useCreateUser'
 

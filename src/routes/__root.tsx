@@ -1,6 +1,7 @@
-import type { QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
 import { ToastContainer } from 'react-toastify'
+
+import type { QueryClient } from '#/lib/query-client'
 
 import appCss from '../styles.css?url'
 

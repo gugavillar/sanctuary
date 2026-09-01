@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '#/lib/query-client'
 
 import { createUser } from '../usecase/createUser'
 

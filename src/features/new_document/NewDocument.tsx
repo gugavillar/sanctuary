@@ -1,4 +1,3 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { ChevronLeft, PlusCircle, Trash2 } from 'lucide-react'
 import { type ChangeEvent, useState } from 'react'
@@ -7,6 +6,7 @@ import { toast } from 'react-toastify'
 import { twMerge } from 'tailwind-merge'
 
 import { Button, FileInput, Input, MaskedInput, Select } from '#/components/forms'
+import { useSuspenseQuery } from '#/lib/query-client'
 import { useCreateDocument } from '#/services/documents/hooks/useCreateDocument'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
 import { documentTypeQuery } from '#/services/documents/hooks/useGetTypes'

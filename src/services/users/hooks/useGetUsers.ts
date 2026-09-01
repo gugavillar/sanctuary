@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query'
+import { queryOptions } from '#/lib/query-client'
 
 import { type GetUsersParams, type GetUsersReturn, getUsers } from '../usecase/getUsers'
 
