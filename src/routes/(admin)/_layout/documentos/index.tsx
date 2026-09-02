@@ -6,7 +6,7 @@ import { documentsQuery } from '#/services/documents/hooks/useGetDocuments'
 export const Route = createFileRoute('/(admin)/_layout/documentos/')({
 	component: DocumentsPage,
 	loader: async ({ context }) => {
-		await context.queryClient.query(documentsQuery())
+		await context.queryClient.query(documentsQuery({ page: 1, search: '' }))
 	},
 })
 

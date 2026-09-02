@@ -2,7 +2,7 @@ import type { UUID } from 'crypto'
 
 import { api } from '#/services/api'
 
-export type GetDocumentsReturn = {
+type Document = {
 	id: UUID
 	title: string
 	identification: string | null
@@ -12,7 +12,15 @@ export type GetDocumentsReturn = {
 	category: { category: string }
 }
 
-export const getDocuments = async () => {
-	const response = await api.get<Array<GetDocumentsReturn>>('/documents/list')
+export type GetDocumentsReturn = {
+	currentPage: number
+	documents: Array<Document>
+	perPage: number
+	totalCount: number
+	totalPages: number
+}
+
+export const getDocuments = async ({ page, search }: { page: number; search?: string }) => {
+	const response = await api.get<GetDocumentsReturn>('/documents/list', { params: { page, ...(search && { search }) } })
 	return response.data
 }

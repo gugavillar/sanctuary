@@ -1,6 +1,6 @@
 import { api } from '#/services/api'
 
-export type GetUsersReturn = {
+type User = {
 	id: string
 	name: string
 	email: string
@@ -19,11 +19,20 @@ export type GetUsersReturn = {
 	}>
 }
 
-export type GetUsersParams = {
-	search?: string
+export type GetUsersReturn = {
+	currentPage: number
+	users: Array<User>
+	perPage: number
+	totalCount: number
+	totalPages: number
 }
 
-export const getUsers = async ({ search }: GetUsersParams) => {
-	const response = await api.get<Array<GetUsersReturn>>('/users/list', { params: { ...(search && { search }) } })
+export type GetUsersParams = {
+	search?: string
+	page: number
+}
+
+export const getUsers = async ({ search, page }: GetUsersParams) => {
+	const response = await api.get<GetUsersReturn>('/users/list', { params: { page, ...(search && { search }) } })
 	return response.data
 }

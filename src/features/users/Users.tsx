@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useDebounceValue } from 'usehooks-ts'
 
 import { Button, Input } from '#/components/forms'
-import { Table } from '#/components/ui'
+import { Pagination, Table } from '#/components/ui'
 import { useQuery } from '#/lib/query-client'
 import { usersQuery } from '#/services/users/hooks/useGetUsers'
 
@@ -12,9 +12,10 @@ import { HEADER_LABELS_USERS } from './Users.utils'
 
 export const Users = () => {
 	const [search, setSearch] = useState('')
+	const [page, setPage] = useState(1)
 	const [debouncedValue] = useDebounceValue(search, 500)
 	const navigate = useNavigate()
-	const { data: users, isLoading } = useQuery(usersQuery({ search: debouncedValue }))
+	const { data: users, isLoading } = useQuery(usersQuery({ page, search: debouncedValue }))
 
 	const handleAddUser = () => {
 		navigate({ to: '/usuarios/novo_usuario' })
@@ -35,7 +36,8 @@ export const Users = () => {
 					<span>Adicionar usuário</span>
 				</Button>
 			</div>
-			<Table bodyData={users ?? []} headerLabels={HEADER_LABELS_USERS} isLoading={isLoading} />
+			<Table bodyData={users?.users ?? []} headerLabels={HEADER_LABELS_USERS} isLoading={isLoading} />
+			<Pagination currentPage={page} setPage={setPage} totalPages={users?.totalPages} />
 		</div>
 	)
 }

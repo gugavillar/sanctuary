@@ -2,14 +2,14 @@ import { queryOptions } from '#/lib/query-client'
 
 import { getDocuments } from '../usecase/getDocuments'
 
-export const documentsQuery = () =>
+export const documentsQuery = ({ page, search }: { page: number; search?: string }) =>
 	queryOptions({
-		queryFn: getDocuments,
-		queryKey: ['documents'],
-		select: (data) => {
-			return data.map((document) => {
+		queryFn: () => getDocuments({ page, search }),
+		queryKey: ['documents', page, search],
+		select: (data) => ({
+			...data,
+			documents: data.documents.map((document) => {
 				const tags = document.tags.filter((tag) => tag.trim().length > 0)
-
 				return {
 					category: document.category.category,
 					description: document.description ?? '-',
@@ -19,6 +19,6 @@ export const documentsQuery = () =>
 					title: document.title,
 					type: document.type.type,
 				}
-			})
-		},
+			}),
+		}),
 	})
