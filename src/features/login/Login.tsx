@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useRouter } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -9,6 +9,7 @@ import { type LoginSchema, loginResolver } from './login.schema'
 
 export const Login = () => {
 	const navigate = useNavigate()
+	const router = useRouter()
 	const {
 		register,
 		handleSubmit,
@@ -33,6 +34,7 @@ export const Login = () => {
 			return
 		}
 
+		await router.invalidate()
 		navigate({ to: '/dashboard' })
 	}
 

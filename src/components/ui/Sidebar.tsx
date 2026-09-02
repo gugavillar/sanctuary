@@ -3,6 +3,7 @@ import { FileBox } from 'lucide-react'
 
 import { MENU_ITEMS } from '#/constants'
 import { authClient } from '#/lib/auth-client'
+import { useQueryClient } from '#/lib/query-client'
 
 import { Button } from '../forms'
 
@@ -21,8 +22,10 @@ const SidebarItem = ({ icon, label, to }: { icon: React.ReactNode; label: string
 
 export const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
 	const navigate = useNavigate()
+	const queryClient = useQueryClient()
 	const handleLogout = async () => {
 		await authClient.signOut()
+		queryClient.clear()
 		navigate({ to: '/' })
 	}
 
