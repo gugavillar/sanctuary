@@ -12,7 +12,7 @@ export const Login = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty, isValid },
+		formState: { errors, isDirty, isSubmitting, isValid },
 	} = useForm<LoginSchema>({
 		defaultValues: {
 			email: '',
@@ -60,6 +60,7 @@ export const Login = () => {
 			<Button
 				className="w-full bg-emerald-600 text-white hover:bg-emerald-500"
 				disabled={!isDirty || !isValid}
+				isLoading={isSubmitting}
 				type="submit"
 			>
 				Entrar
