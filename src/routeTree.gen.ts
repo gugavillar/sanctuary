@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlterarSenhaRouteImport } from './routes/alterar-senha'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
 import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -19,6 +20,7 @@ import { Route as ApiDocumentsListRouteImport } from './routes/api/documents/lis
 import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as ApiUsersCreateRouteImport } from './routes/api/users/create'
 import { Route as ApiUsersListRouteImport } from './routes/api/users/list'
+import { Route as ApiUsersUpdatePasswordRouteImport } from './routes/api/users/update-password'
 import { Route as adminLayoutDocumentosIndexRouteImport } from './routes/(admin)/_layout/documentos/index'
 import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './routes/(admin)/_layout/documentos/novo_documento'
 import { Route as adminLayoutUsuariosLayoutRouteImport } from './routes/(admin)/_layout/usuarios/_layout'
@@ -28,6 +30,11 @@ import { Route as adminLayoutUsuariosLayoutNovo_usuarioRouteImport } from './rou
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlterarSenhaRoute = AlterarSenhaRouteImport.update({
+  id: '/alterar-senha',
+  path: '/alterar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const adminLayoutRoute = adminLayoutRouteImport.update({
@@ -74,6 +81,11 @@ const ApiUsersListRoute = ApiUsersListRouteImport.update({
   path: '/api/users/list',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUsersUpdatePasswordRoute = ApiUsersUpdatePasswordRouteImport.update({
+  id: '/api/users/update-password',
+  path: '/api/users/update-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const adminLayoutDocumentosIndexRoute =
   adminLayoutDocumentosIndexRouteImport.update({
     id: '/documentos/',
@@ -107,6 +119,7 @@ const adminLayoutUsuariosLayoutNovo_usuarioRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alterar-senha': typeof AlterarSenhaRoute
   '/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
@@ -115,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
   '/api/users/list': typeof ApiUsersListRoute
+  '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/usuarios': typeof adminLayoutUsuariosLayoutRouteWithChildren
   '/documentos/': typeof adminLayoutDocumentosIndexRoute
@@ -123,6 +137,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alterar-senha': typeof AlterarSenhaRoute
   '/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
@@ -131,6 +146,7 @@ export interface FileRoutesByTo {
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
   '/api/users/list': typeof ApiUsersListRoute
+  '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/documentos': typeof adminLayoutDocumentosIndexRoute
   '/usuarios/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
@@ -139,6 +155,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alterar-senha': typeof AlterarSenhaRoute
   '/(admin)/_layout': typeof adminLayoutRouteWithChildren
   '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -148,6 +165,7 @@ export interface FileRoutesById {
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
   '/api/users/list': typeof ApiUsersListRoute
+  '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
   '/(admin)/_layout/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/(admin)/_layout/usuarios/_layout': typeof adminLayoutUsuariosLayoutRouteWithChildren
   '/(admin)/_layout/documentos/': typeof adminLayoutDocumentosIndexRoute
@@ -158,6 +176,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/alterar-senha'
     | '/dashboard'
     | '/api/auth/$'
     | '/api/documents/categories'
@@ -166,6 +185,7 @@ export interface FileRouteTypes {
     | '/api/documents/types'
     | '/api/users/create'
     | '/api/users/list'
+    | '/api/users/update-password'
     | '/documentos/novo_documento'
     | '/usuarios'
     | '/documentos/'
@@ -174,6 +194,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/alterar-senha'
     | '/dashboard'
     | '/api/auth/$'
     | '/api/documents/categories'
@@ -182,6 +203,7 @@ export interface FileRouteTypes {
     | '/api/documents/types'
     | '/api/users/create'
     | '/api/users/list'
+    | '/api/users/update-password'
     | '/documentos/novo_documento'
     | '/documentos'
     | '/usuarios/novo_usuario'
@@ -189,6 +211,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/alterar-senha'
     | '/(admin)/_layout'
     | '/(admin)/_layout/dashboard'
     | '/api/auth/$'
@@ -198,6 +221,7 @@ export interface FileRouteTypes {
     | '/api/documents/types'
     | '/api/users/create'
     | '/api/users/list'
+    | '/api/users/update-password'
     | '/(admin)/_layout/documentos/novo_documento'
     | '/(admin)/_layout/usuarios/_layout'
     | '/(admin)/_layout/documentos/'
@@ -207,6 +231,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlterarSenhaRoute: typeof AlterarSenhaRoute
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiDocumentsCategoriesRoute: typeof ApiDocumentsCategoriesRoute
@@ -215,6 +240,7 @@ export interface RootRouteChildren {
   ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
   ApiUsersCreateRoute: typeof ApiUsersCreateRoute
   ApiUsersListRoute: typeof ApiUsersListRoute
+  ApiUsersUpdatePasswordRoute: typeof ApiUsersUpdatePasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -224,6 +250,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alterar-senha': {
+      id: '/alterar-senha'
+      path: '/alterar-senha'
+      fullPath: '/alterar-senha'
+      preLoaderRoute: typeof AlterarSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(admin)/_layout': {
@@ -287,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/api/users/list'
       fullPath: '/api/users/list'
       preLoaderRoute: typeof ApiUsersListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/update-password': {
+      id: '/api/users/update-password'
+      path: '/api/users/update-password'
+      fullPath: '/api/users/update-password'
+      preLoaderRoute: typeof ApiUsersUpdatePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(admin)/_layout/documentos/': {
@@ -365,6 +405,7 @@ const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlterarSenhaRoute: AlterarSenhaRoute,
   adminLayoutRoute: adminLayoutRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiDocumentsCategoriesRoute: ApiDocumentsCategoriesRoute,
@@ -373,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
   ApiUsersCreateRoute: ApiUsersCreateRoute,
   ApiUsersListRoute: ApiUsersListRoute,
+  ApiUsersUpdatePasswordRoute: ApiUsersUpdatePasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

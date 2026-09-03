@@ -12,6 +12,12 @@ export const Route = createFileRoute('/(admin)/_layout')({
 			throw redirect({ to: '/' })
 		}
 
+		if (session.user.mustChangePassword) {
+			throw redirect({
+				to: '/alterar-senha',
+			})
+		}
+
 		const permissions = await getUserPermissions({ data: { userId: session.user.id } })
 
 		return {

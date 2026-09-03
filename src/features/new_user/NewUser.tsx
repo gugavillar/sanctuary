@@ -68,6 +68,7 @@ export const NewUser = () => {
 				onSuccess: () => {
 					toast.success('Usuário criado com sucesso')
 					reset()
+					handleBack()
 				},
 			}
 		)

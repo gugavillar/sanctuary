@@ -10,7 +10,8 @@ export const Route = createFileRoute('/api/users/create')({
 	server: {
 		handlers: {
 			POST: async ({ request }) => {
-				const session = await auth.api.getSession({ headers: getRequestHeaders() })
+				const headers = getRequestHeaders()
+				const session = await auth.api.getSession({ headers })
 
 				if (!session || session.user.role !== 'ADMIN') {
 					return Response.json({ error: 'Forbidden' }, { status: 403 })
@@ -21,12 +22,16 @@ export const Route = createFileRoute('/api/users/create')({
 				try {
 					const signUpResult = await auth.api.signUpEmail({
 						body: { email: body.email, name: body.name, password: FIRST_PASSWORD },
+						headers,
 					})
 
 					const permissions: Array<{ categoryId: string; level: 'VIEW' | 'VIEW_AND_ADD' }> = body.permissions ?? []
 
 					await prisma.$transaction([
-						prisma.user.update({ data: { role: body.role }, where: { id: signUpResult.user.id } }),
+						prisma.user.update({
+							data: { mustChangePassword: true, role: body.role },
+							where: { id: signUpResult.user.id },
+						}),
 						...(permissions.length
 							? [
 									prisma.categoryPermission.createMany({

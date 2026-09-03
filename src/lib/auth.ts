@@ -10,11 +10,13 @@ export const auth = betterAuth({
 		provider: 'postgresql',
 	}),
 	emailAndPassword: {
+		autoSignIn: false,
 		enabled: true,
 	},
 	plugins: [tanstackStartCookies()],
 	user: {
 		additionalFields: {
+			mustChangePassword: { defaultValue: false, input: false, required: true, type: ['boolean'] },
 			role: { defaultValue: 'USER', input: false, required: true, type: ['ADMIN', 'USER'] },
 		},
 	},

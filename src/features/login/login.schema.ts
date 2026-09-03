@@ -11,7 +11,7 @@ const loginSchema = z.object({
 		.string({ error: 'Campo obrigatório' })
 		.refine((value) => !!value?.length, { error: 'Campo obrigatório' })
 		.refine((value) => value.length >= 8, {
-			error: 'Password deve ter no mínimo 8 caracteres',
+			error: 'Senha deve ter no mínimo 8 caracteres',
 		}),
 })
 

@@ -48,7 +48,7 @@ export const Pagination = memo(({ currentPage, totalPages = 1, setPage }: Pagina
 			<button
 				aria-label="Previous"
 				className="inline-flex min-h-9 min-w-9 cursor-pointer items-center justify-center gap-x-1.5 px-2.5 py-2 text-gray-800 text-sm first:rounded-s-lg last:rounded-e-lg hover:bg-gray-100 focus:outline-hidden disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
-				disabled={isFirstPage}
+				disabled={isFirstPage || !totalPages}
 				onClick={() => setPage(currentPage - 1)}
 				type="button"
 			>
@@ -67,7 +67,7 @@ export const Pagination = memo(({ currentPage, totalPages = 1, setPage }: Pagina
 			<button
 				aria-label="Next"
 				className="inline-flex min-h-9 min-w-9 cursor-pointer items-center justify-center gap-x-1.5 px-2.5 py-2 text-gray-800 text-sm first:rounded-s-lg last:rounded-e-lg hover:bg-gray-100 focus:outline-hidden disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
-				disabled={isLastPage}
+				disabled={isLastPage || !totalPages}
 				onClick={() => setPage(currentPage + 1)}
 				type="button"
 			>
