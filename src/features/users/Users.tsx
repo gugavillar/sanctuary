@@ -1,12 +1,15 @@
 import { useNavigate } from '@tanstack/react-router'
-import { PlusCircleIcon } from 'lucide-react'
+import { isAxiosError } from 'axios'
+import { PlusCircleIcon, UserKeyIcon } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { useDebounceValue } from 'usehooks-ts'
 
 import { Button, Input } from '#/components/forms'
 import { Pagination, Table } from '#/components/ui'
 import { useQuery } from '#/lib/query-client'
 import { usersQuery } from '#/services/users/hooks/useGetUsers'
+import { useResetPassword } from '#/services/users/hooks/useResetPassword'
 
 import { HEADER_LABELS_USERS } from './Users.utils'
 
@@ -16,10 +19,42 @@ export const Users = () => {
 	const [debouncedValue] = useDebounceValue(search, 500)
 	const navigate = useNavigate()
 	const { data: users, isLoading } = useQuery(usersQuery({ page, search: debouncedValue }))
+	const { mutateAsync: resetPassword, isPending } = useResetPassword()
 
 	const handleAddUser = () => {
 		navigate({ to: '/usuarios/novo_usuario' })
 	}
+
+	const handleResetPassword = async (userId: string) => {
+		await resetPassword(
+			{ userId },
+			{
+				onError: (error) => {
+					if (isAxiosError(error) && error.response?.status === 403) {
+						return toast.error('Você não tem permissão para redefinir a senha')
+					}
+					toast.error('Erro ao redefinir senha')
+				},
+				onSuccess: () => {
+					toast.success('Senha redefinida com sucesso')
+				},
+			}
+		)
+	}
+
+	const formattedUsers = users?.users?.map((user) => ({
+		...user,
+		actions: (
+			<button
+				className="flex cursor-pointer items-center justify-center px-2 py-1 disabled:opacity-50"
+				disabled={isPending}
+				onClick={() => handleResetPassword(user.id)}
+				type="button"
+			>
+				<UserKeyIcon />
+			</button>
+		),
+	}))
 
 	return (
 		<div className="flex flex-col gap-8">
@@ -36,7 +71,7 @@ export const Users = () => {
 					<span>Adicionar usuário</span>
 				</Button>
 			</div>
-			<Table bodyData={users?.users ?? []} headerLabels={HEADER_LABELS_USERS} isLoading={isLoading} />
+			<Table bodyData={formattedUsers ?? []} headerLabels={HEADER_LABELS_USERS} isLoading={isLoading} />
 			<Pagination currentPage={page} setPage={setPage} totalPages={users?.totalPages} />
 		</div>
 	)

@@ -12,11 +12,11 @@ import { type ChangePasswordSchema, changePasswordResolver } from './changePassw
 export const ChangePassword = () => {
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
-	const { mutateAsync: updatePassword } = useUpdatePassword()
+	const { mutateAsync: updatePassword, isPending } = useUpdatePassword()
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty, isSubmitting, isValid },
+		formState: { errors, isDirty, isValid },
 	} = useForm<ChangePasswordSchema>({
 		defaultValues: {
 			confirmPassword: '',
@@ -69,7 +69,7 @@ export const ChangePassword = () => {
 			<Button
 				className="w-full bg-emerald-600 text-white hover:bg-emerald-500"
 				disabled={!isDirty || !isValid}
-				isLoading={isSubmitting}
+				isLoading={isPending}
 				type="submit"
 			>
 				Alterar

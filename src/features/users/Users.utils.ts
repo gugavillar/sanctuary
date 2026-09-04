@@ -15,4 +15,8 @@ export const HEADER_LABELS_USERS = [
 		accessor: 'permission',
 		label: 'Permissão',
 	},
+	{
+		accessor: 'actions',
+		label: '',
+	},
 ]

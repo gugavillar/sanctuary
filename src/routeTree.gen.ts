@@ -20,6 +20,7 @@ import { Route as ApiDocumentsListRouteImport } from './routes/api/documents/lis
 import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as ApiUsersCreateRouteImport } from './routes/api/users/create'
 import { Route as ApiUsersListRouteImport } from './routes/api/users/list'
+import { Route as ApiUsersResetPasswordRouteImport } from './routes/api/users/reset-password'
 import { Route as ApiUsersUpdatePasswordRouteImport } from './routes/api/users/update-password'
 import { Route as adminLayoutDocumentosIndexRouteImport } from './routes/(admin)/_layout/documentos/index'
 import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './routes/(admin)/_layout/documentos/novo_documento'
@@ -81,6 +82,11 @@ const ApiUsersListRoute = ApiUsersListRouteImport.update({
   path: '/api/users/list',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUsersResetPasswordRoute = ApiUsersResetPasswordRouteImport.update({
+  id: '/api/users/reset-password',
+  path: '/api/users/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiUsersUpdatePasswordRoute = ApiUsersUpdatePasswordRouteImport.update({
   id: '/api/users/update-password',
   path: '/api/users/update-password',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
   '/api/users/list': typeof ApiUsersListRoute
+  '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
   '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/usuarios': typeof adminLayoutUsuariosLayoutRouteWithChildren
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
   '/api/users/list': typeof ApiUsersListRoute
+  '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
   '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
   '/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/documentos': typeof adminLayoutDocumentosIndexRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
   '/api/users/list': typeof ApiUsersListRoute
+  '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
   '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
   '/(admin)/_layout/documentos/novo_documento': typeof adminLayoutDocumentosNovo_documentoRoute
   '/(admin)/_layout/usuarios/_layout': typeof adminLayoutUsuariosLayoutRouteWithChildren
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/api/documents/types'
     | '/api/users/create'
     | '/api/users/list'
+    | '/api/users/reset-password'
     | '/api/users/update-password'
     | '/documentos/novo_documento'
     | '/usuarios'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/api/documents/types'
     | '/api/users/create'
     | '/api/users/list'
+    | '/api/users/reset-password'
     | '/api/users/update-password'
     | '/documentos/novo_documento'
     | '/documentos'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/api/documents/types'
     | '/api/users/create'
     | '/api/users/list'
+    | '/api/users/reset-password'
     | '/api/users/update-password'
     | '/(admin)/_layout/documentos/novo_documento'
     | '/(admin)/_layout/usuarios/_layout'
@@ -240,6 +252,7 @@ export interface RootRouteChildren {
   ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
   ApiUsersCreateRoute: typeof ApiUsersCreateRoute
   ApiUsersListRoute: typeof ApiUsersListRoute
+  ApiUsersResetPasswordRoute: typeof ApiUsersResetPasswordRoute
   ApiUsersUpdatePasswordRoute: typeof ApiUsersUpdatePasswordRoute
 }
 
@@ -320,6 +333,13 @@ declare module '@tanstack/react-router' {
       path: '/api/users/list'
       fullPath: '/api/users/list'
       preLoaderRoute: typeof ApiUsersListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/reset-password': {
+      id: '/api/users/reset-password'
+      path: '/api/users/reset-password'
+      fullPath: '/api/users/reset-password'
+      preLoaderRoute: typeof ApiUsersResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/users/update-password': {
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
   ApiUsersCreateRoute: ApiUsersCreateRoute,
   ApiUsersListRoute: ApiUsersListRoute,
+  ApiUsersResetPasswordRoute: ApiUsersResetPasswordRoute,
   ApiUsersUpdatePasswordRoute: ApiUsersUpdatePasswordRoute,
 }
 export const routeTree = rootRouteImport

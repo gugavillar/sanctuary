@@ -1,5 +1,7 @@
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { admin } from 'better-auth/plugins'
+import { defaultRoles } from 'better-auth/plugins/admin/access'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 
 import { prisma } from '#/db'
@@ -13,7 +15,17 @@ export const auth = betterAuth({
 		autoSignIn: false,
 		enabled: true,
 	},
-	plugins: [tanstackStartCookies()],
+	plugins: [
+		admin({
+			adminRoles: ['ADMIN'],
+			defaultRole: 'USER',
+			roles: {
+				ADMIN: defaultRoles.admin,
+				USER: defaultRoles.user,
+			},
+		}),
+		tanstackStartCookies(),
+	],
 	user: {
 		additionalFields: {
 			mustChangePassword: { defaultValue: false, input: false, required: true, type: ['boolean'] },
