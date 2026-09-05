@@ -14,7 +14,7 @@ const config = defineConfig({
 		viteReact(),
 	],
 	resolve: { tsconfigPaths: true },
-	ssr: { external: ['better-auth', '@better-auth/core', 'better-call'] },
+	ssr: { external: ['better-auth', '@better-auth/core', 'better-call'], noExternal: ['@aws-sdk/*'] },
 })
 
 export default config

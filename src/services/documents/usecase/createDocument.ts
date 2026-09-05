@@ -8,9 +8,15 @@ export type CreateDocumentParams = {
 	identification?: string
 	description?: string
 	tags: Array<string>
+	file: File
 }
 
 export const createDocument = async (data: CreateDocumentParams) => {
-	const response = await api.post('/documents/create', data)
+	const formData = new FormData()
+	Object.entries(data).forEach(([key, value]) => {
+		if (value === undefined || value === null) return
+		formData.append(key, value as any)
+	})
+	const response = await api.post('/documents/create', formData)
 	return response.data
 }

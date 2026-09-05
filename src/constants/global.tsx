@@ -4,6 +4,9 @@ export const FIRST_PASSWORD = '12345678'
 
 export const LIMIT_PER_PAGE = 10
 
+export const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+export const ACCEPTED_TYPE = 'application/pdf'
+
 export const MENU_ITEMS = [
 	{
 		icon: <Gauge />,

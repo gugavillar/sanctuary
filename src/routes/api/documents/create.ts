@@ -1,10 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { getRequestHeaders } from '@tanstack/react-start/server'
-import { parse } from 'date-fns'
 
 import { prisma } from '#/db'
+import { formatDateToSaveDatabase } from '#/formatters'
 import { auth } from '#/lib/auth'
+import { sendFile } from '#/lib/file'
 import { canAddToCategory } from '#/lib/permissions'
+import type { CreateDocumentParams } from '#/services/documents/usecase/createDocument'
 
 export const Route = createFileRoute('/api/documents/create')({
 	server: {
@@ -16,7 +18,8 @@ export const Route = createFileRoute('/api/documents/create')({
 					return Response.json({ error: 'Unauthorized' }, { status: 401 })
 				}
 
-				const body = await request.json()
+				const formData = await request.formData()
+				const rawData = Object.fromEntries(formData.entries()) as unknown as CreateDocumentParams
 
 				try {
 					const permissions = await prisma.categoryPermission.findMany({
@@ -24,24 +27,31 @@ export const Route = createFileRoute('/api/documents/create')({
 						where: { userId: session.user.id },
 					})
 
-					if (!canAddToCategory(session.user, permissions, body.categoryId)) {
+					if (!canAddToCategory(session.user, permissions, rawData.categoryId)) {
 						return Response.json({ error: 'Forbidden' }, { status: 403 })
 					}
 
 					const document = await prisma.document.create({
 						data: {
-							categoryId: body.categoryId,
+							categoryId: rawData.categoryId,
 							createdById: session.user.id,
-							date: body.date ? parse(body.date, 'dd/MM/yyyy', new Date()) : null,
-							description: body.description || null,
-							identification: body.identification || null,
-							tags: body.tags ?? [],
-							title: body.title,
-							typeId: body.typeId,
+							date: rawData.date ? formatDateToSaveDatabase(rawData.date) : null,
+							description: rawData.description || null,
+							identification: rawData.identification || null,
+							tags: rawData.tags || [],
+							title: rawData.title,
+							typeId: rawData.typeId,
 						},
 					})
+					await sendFile({
+						categoryId: rawData.categoryId,
+						file: rawData.file,
+						id: document.id,
+						title: rawData.title,
+					})
 					return Response.json({ data: document }, { status: 201 })
-				} catch {
+				} catch (error) {
+					console.error('create', error)
 					return Response.json({ error: 'Internal Server Error' }, { status: 500 })
 				}
 			},

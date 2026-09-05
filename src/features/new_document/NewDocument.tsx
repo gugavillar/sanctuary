@@ -28,7 +28,7 @@ export const NewDocument = () => {
 		formState: { errors, isValid, isDirty },
 	} = useForm<NewDocumentSchema>({
 		defaultValues: {
-			category: '',
+			categoryId: '',
 			date: '',
 			description: '',
 			file: undefined,
@@ -39,7 +39,7 @@ export const NewDocument = () => {
 				},
 			],
 			title: '',
-			type: '',
+			typeId: '',
 		},
 		mode: 'onChange',
 		resolver: newDocumentResolver,
@@ -72,13 +72,8 @@ export const NewDocument = () => {
 	const onSubmit = async (data: NewDocumentSchema) => {
 		try {
 			await createDocumentAsync({
-				categoryId: data.category,
-				date: data.date,
-				description: data.description,
-				identification: data.identification,
+				...data,
 				tags: data.tags?.map((item) => item.tag) ?? [],
-				title: data.title,
-				typeId: data.type,
 			})
 		} catch {
 			return toast.error('Falha ao criar documento')
@@ -105,15 +100,15 @@ export const NewDocument = () => {
 							label="Categoria"
 							options={documentCategories}
 							placeholder="Categoria"
-							{...register('category')}
-							error={errors.category?.message}
+							{...register('categoryId')}
+							error={errors.categoryId?.message}
 						/>
 						<Select
 							label="Tipo"
 							options={documentTypes}
 							placeholder="Tipo"
-							{...register('type')}
-							error={errors.type?.message}
+							{...register('typeId')}
+							error={errors.typeId?.message}
 						/>
 					</div>
 					<div className="flex gap-6">

@@ -39,7 +39,6 @@ export const Route = createFileRoute('/api/users/reset-password')({
 
 					return Response.json({ data: { status: response.status } }, { status: 200 })
 				} catch (error) {
-					console.log(error)
 					if (error instanceof APIError && error.body?.code === 'YOU_ARE_NOT_ALLOWED_TO_SET_USERS_PASSWORD') {
 						return Response.json({ error: 'NOT_ALLOWED' }, { status: 403 })
 					}

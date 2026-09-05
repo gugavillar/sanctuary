@@ -2,15 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { isValid, parse } from 'date-fns'
 import { z } from 'zod'
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
-const ACCEPTED_TYPE = 'application/pdf'
+import { ACCEPTED_TYPE, MAX_FILE_SIZE } from '#/constants'
 
 const transformDate = (date: string) => {
 	return parse(date, 'dd/MM/yyyy', new Date())
 }
 
 const newDocumentSchema = z.object({
-	category: z.string({ error: 'Campo obrigatório' }).min(1, { error: 'Campo obrigatório' }),
+	categoryId: z.string({ error: 'Campo obrigatório' }).min(1, { error: 'Campo obrigatório' }),
 	date: z
 		.string({ error: 'Campo obrigatório' })
 		.optional()
@@ -32,7 +31,7 @@ const newDocumentSchema = z.object({
 			error: 'Arquivo inválido',
 		})
 		.refine((file) => file?.size <= MAX_FILE_SIZE, {
-			error: 'O arquivo deve ter no máximo 5MB',
+			error: `O arquivo deve ter no máximo ${MAX_FILE_SIZE}MB`,
 		})
 		.refine((file) => file?.type === ACCEPTED_TYPE, {
 			error: 'O arquivo deve ser um PDF',
@@ -69,7 +68,7 @@ const newDocumentSchema = z.object({
 		.min(6, { error: 'O título deve ter no mínimo 6 caracteres' })
 		.refine((value) => Boolean(value.trim()), { error: 'O título não pode ser vazio' })
 		.transform((value) => value.trim()),
-	type: z.string({ error: 'Campo obrigatório' }).min(1, { error: 'Campo obrigatório' }),
+	typeId: z.string({ error: 'Campo obrigatório' }).min(1, { error: 'Campo obrigatório' }),
 })
 
 export type NewDocumentSchema = z.infer<typeof newDocumentSchema>
