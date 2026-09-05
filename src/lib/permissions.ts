@@ -4,9 +4,6 @@ type SessionUser = { role: 'ADMIN' | 'USER' } | null | undefined
 
 export const isAdmin = (user: SessionUser) => user?.role === 'ADMIN'
 
-export const canViewCategory = (user: SessionUser, permissions: Array<UserCategoryPermission>, categoryId: string) =>
-	isAdmin(user) || permissions.some((permission) => permission.categoryId === categoryId)
-
 export const canAddToCategory = (user: SessionUser, permissions: Array<UserCategoryPermission>, categoryId: string) =>
 	isAdmin(user) ||
 	permissions.some((permission) => permission.categoryId === categoryId && permission.level === 'VIEW_AND_ADD')

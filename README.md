@@ -1,242 +1,151 @@
-Welcome to your new TanStack Start app!
+# Sanctuary
 
-# Getting Started
+Church administrative management system — documents and users, with role- and category-based permissions.
 
-To run this application:
+🇺🇸 [English](#english) · 🇧🇷 [Português](#português)
+
+---
+
+## English
+
+Sanctuary is a small internal management app for a church office: it centralizes document storage (deeds, contracts, reports, receipts, etc.) organized by category and type, and manages which staff member can view or add documents for each category, plus a separate admin-only area for user management.
+
+### Features
+
+- **Authentication** — email/password login via [better-auth](https://www.better-auth.com), forced password change on first login and on admin-triggered resets.
+- **Roles & permissions** — an `ADMIN` role with full access to everything (including user management), and a `USER` role whose access to each document category (view-only or view+add) is granted individually by an admin.
+- **Document management** — create documents with title, type, category, date, identification, description and tags, with PDF upload (stored in an S3 bucket via presigned URLs); searchable, paginated listing filtered by what the logged-in user is allowed to see.
+- **User management** (admin only) — create users, assign role and per-category permissions, force a password reset.
+
+### Tech stack
+
+- [TanStack Start](https://tanstack.com/start) (React 19, SSR) with [TanStack Router](https://tanstack.com/router) (file-based routing) and [TanStack Query](https://tanstack.com/query)
+- [Prisma](https://www.prisma.io/) + PostgreSQL
+- [better-auth](https://www.better-auth.com) (email/password + admin plugin)
+- [Tailwind CSS](https://tailwindcss.com/) v4
+- [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- AWS S3 for file storage
+- [Nitro](https://nitro.build/) as the server adapter (deployable to any Node-compatible host)
+- [Biome](https://biomejs.dev/) for linting and formatting
+
+### Getting started
+
+**Prerequisites:** Node.js, [pnpm](https://pnpm.io/), Docker (for a local PostgreSQL instance), and an AWS S3 bucket (for file uploads).
 
 ```bash
+# 1. Install dependencies
 pnpm install
+
+# 2. Copy the env file and fill in the values (DB credentials, better-auth secret, AWS keys)
+cp .env.example .env
+
+# 3. Start PostgreSQL
+docker compose up -d
+
+# 4. Apply migrations and seed initial data (document categories/types + an admin user)
+pnpm db:migrate
+pnpm db:seed
+
+# 5. Start the dev server
 pnpm dev
 ```
 
-# Building For Production
+The app runs at `http://localhost:3000`. The seed script creates an admin user (`admin@admin.com.br`, password from `FIRST_PASSWORD` in `src/constants`) that must change its password on first login.
 
-To build this application for production:
+### Available scripts
+
+| Script | Description |
+| --- | --- |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Build for production |
+| `pnpm preview` | Run the production build locally |
+| `pnpm check-types` | Type-check with `tsc` |
+| `pnpm check` / `pnpm lint` / `pnpm format` | Biome check / lint / format |
+| `pnpm db:migrate` | Run Prisma migrations |
+| `pnpm db:seed` | Seed categories, types and the initial admin user |
+| `pnpm db:studio` | Open Prisma Studio |
+
+### Project structure
+
+```
+src/
+  components/   shared UI (forms, layout primitives)
+  features/     screen-level React components (login, documents, users, ...)
+  routes/       file-based routes (pages and API routes) — powers TanStack Router
+  services/     API client calls + TanStack Query hooks, grouped by domain
+  lib/          auth config, permissions, Prisma client, S3 client
+prisma/         schema, migrations and seed script
+```
+
+---
+
+## Português
+
+O Sanctuary é um sistema interno de gestão administrativa para uma igreja: centraliza o armazenamento de documentos (atas, contratos, relatórios, recibos etc.) organizados por categoria e tipo, e controla quem pode visualizar ou adicionar documentos de cada categoria, além de uma área separada, restrita a administradores, para gestão de usuários.
+
+### Funcionalidades
+
+- **Autenticação** — login com email/senha via [better-auth](https://www.better-auth.com), com troca de senha obrigatória no primeiro acesso e sempre que um admin reseta a senha de alguém.
+- **Papéis e permissões** — papel `ADMIN` com acesso total (incluindo gestão de usuários), e papel `USER` cujo acesso a cada categoria de documento (só visualizar ou visualizar e adicionar) é concedido individualmente por um admin.
+- **Gestão de documentos** — criação de documentos com título, tipo, categoria, data, identificação, descrição e etiquetas, com upload de PDF (armazenado em um bucket S3 via URLs pré-assinadas); listagem paginada e pesquisável, filtrada pelo que o usuário logado tem permissão de ver.
+- **Gestão de usuários** (só admin) — criação de usuários, atribuição de papel e permissões por categoria, reset forçado de senha.
+
+### Tecnologias
+
+- [TanStack Start](https://tanstack.com/start) (React 19, SSR) com [TanStack Router](https://tanstack.com/router) (rotas baseadas em arquivos) e [TanStack Query](https://tanstack.com/query)
+- [Prisma](https://www.prisma.io/) + PostgreSQL
+- [better-auth](https://www.better-auth.com) (email/senha + plugin de admin)
+- [Tailwind CSS](https://tailwindcss.com/) v4
+- [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- AWS S3 para armazenamento de arquivos
+- [Nitro](https://nitro.build/) como adaptador de servidor (roda em qualquer host compatível com Node)
+- [Biome](https://biomejs.dev/) para lint e formatação
+
+### Como rodar
+
+**Pré-requisitos:** Node.js, [pnpm](https://pnpm.io/), Docker (para o PostgreSQL local) e um bucket S3 na AWS (para upload de arquivos).
 
 ```bash
-pnpm build
+# 1. Instalar as dependências
+pnpm install
+
+# 2. Copiar o arquivo de env e preencher os valores (credenciais do banco, secret do better-auth, chaves da AWS)
+cp .env.example .env
+
+# 3. Subir o PostgreSQL
+docker compose up -d
+
+# 4. Rodar as migrations e popular os dados iniciais (categorias/tipos de documento + um usuário admin)
+pnpm db:migrate
+pnpm db:seed
+
+# 5. Rodar o servidor de desenvolvimento
+pnpm dev
 ```
 
-## Styling
+A aplicação roda em `http://localhost:3000`. O script de seed cria um usuário admin (`admin@admin.com.br`, senha em `FIRST_PASSWORD` em `src/constants`) que precisa trocar a senha no primeiro login.
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+### Scripts disponíveis
 
-### Removing Tailwind CSS
+| Script | Descrição |
+| --- | --- |
+| `pnpm dev` | Roda o servidor de desenvolvimento |
+| `pnpm build` | Build de produção |
+| `pnpm preview` | Roda o build de produção localmente |
+| `pnpm check-types` | Checagem de tipos com `tsc` |
+| `pnpm check` / `pnpm lint` / `pnpm format` | Check / lint / format do Biome |
+| `pnpm db:migrate` | Roda as migrations do Prisma |
+| `pnpm db:seed` | Popula categorias, tipos e o usuário admin inicial |
+| `pnpm db:studio` | Abre o Prisma Studio |
 
-If you prefer not to use Tailwind CSS:
+### Estrutura do projeto
 
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Remove `@tailwindcss/vite` and `tailwindcss` from `package.json`
-
-## Linting & Formatting
-
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
-
-
-```bash
-pnpm lint
-pnpm format
-pnpm check
 ```
-
-
-## Deploy with Nitro
-
-This project uses Nitro as a generic server adapter, so it can run on any Node-compatible host.
-
-```bash
-npm run build
-node dist/server/index.mjs
+src/
+  components/   UI compartilhada (formulários, primitivos de layout)
+  features/     componentes React de tela (login, documentos, usuários, ...)
+  routes/       rotas baseadas em arquivo (páginas e rotas de API) — usadas pelo TanStack Router
+  services/     chamadas de API + hooks do TanStack Query, agrupados por domínio
+  lib/          config de auth, permissões, client do Prisma, client do S3
+prisma/         schema, migrations e script de seed
 ```
-
-The build output is a self-contained Node server. To deploy, push the `dist/` directory to your host (Render, Fly.io, your own VPS, etc.) and run the server command above.
-
-For host-specific presets (Vercel, Netlify, Cloudflare, AWS Lambda, etc.) and tuning, see https://v3.nitro.build/deploy.
-
-
-## Setting up Better Auth
-
-1. Generate and set the `BETTER_AUTH_SECRET` environment variable in your `.env.local`:
-
-   ```bash
-   pnpm dlx @better-auth/cli secret
-   ```
-
-2. Visit the [Better Auth documentation](https://www.better-auth.com) to unlock the full potential of authentication in your app.
-
-### Adding a Database (Optional)
-
-Better Auth can work in stateless mode, but to persist user data, add a database:
-
-```typescript
-// src/lib/auth.ts
-import { betterAuth } from "better-auth";
-import { Pool } from "pg";
-
-export const auth = betterAuth({
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
-  }),
-  // ... rest of config
-});
-```
-
-Then run migrations:
-
-```bash
-pnpm dlx @better-auth/cli migrate
-```
-
-
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
