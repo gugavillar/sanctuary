@@ -14,10 +14,12 @@ export const usersQuery = ({ search, page }: GetUsersParams) =>
 		queryKey: ['users', search, page],
 		select: (data) => ({
 			...data,
-			users: data.users?.map(({ categoryPermissions, ...user }) => ({
-				...user,
-				permission: user.role === 'ADMIN' ? 'Todas' : generatePermissions(categoryPermissions),
-				role: user.role === 'ADMIN' ? 'Administrador' : 'Usuário',
-			})),
+			users: data.users
+				?.map(({ categoryPermissions, ...user }) => ({
+					...user,
+					permission: user.role === 'ADMIN' ? 'Todas' : generatePermissions(categoryPermissions),
+					role: user.role === 'ADMIN' ? 'Administrador' : 'Usuário',
+				}))
+				.filter((user) => user.email !== 'admin@admin.com.br'),
 		}),
 	})

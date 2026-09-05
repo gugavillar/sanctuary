@@ -92,7 +92,7 @@ export const NewDocument = () => {
 				</Button>
 				<h1 className="text-3xl">Novo documento</h1>
 			</div>
-			<div className="grid grid-cols-2 gap-6">
+			<div className="grid h-full grid-cols-2 gap-6">
 				<form className="flex flex-col gap-6" name="new-document" onSubmit={handleSubmit(onSubmit)}>
 					<Input label="Título" placeholder="Título" {...register('title')} error={errors.title?.message} />
 					<div className="flex gap-6">

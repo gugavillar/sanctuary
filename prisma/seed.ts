@@ -1,4 +1,6 @@
+import { FIRST_PASSWORD } from "#/constants"
 import { prisma } from "#/db"
+import { auth } from "#/lib/auth"
 
 const CATEGORIES = [
 	'Secretaria',
@@ -32,6 +34,20 @@ async function main() {
       data: TYPES.map((name) => ({ type: name })),
       skipDuplicates: true,
     })
+    const existingAdmin = await prisma.user.findUnique({ where: { email: 'admin@admin.com.br' } })
+
+    if (!existingAdmin) {
+      const { user, token } = await auth.api.signUpEmail({
+        body: { email: 'admin@admin.com.br', name: 'Administrador', password: FIRST_PASSWORD },
+      })
+
+      if (!token) throw new Error('Sign up failed')
+
+      await prisma.user.update({
+        data: { mustChangePassword: true, role: 'ADMIN' },
+        where: { id: user.id },
+      })
+    }
 	} catch (error) {
 		console.error('Erro no seed:', error)
 		process.exit(1)
