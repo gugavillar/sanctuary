@@ -23,4 +23,8 @@ export const HEADER_LABELS_DOCUMENTS = [
 		accessor: 'tags',
 		label: 'Etiquetas',
 	},
+	{
+		accessor: 'actions',
+		label: '',
+	},
 ]

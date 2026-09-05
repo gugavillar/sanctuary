@@ -51,8 +51,7 @@ export const sendFile = async ({ title, file, categoryId, id }: SendFileParams) 
 				id,
 			},
 		})
-	} catch (error) {
-		console.error(error)
+	} catch {
 		throw new Error('Ocorreu um erro ao enviar o arquivo')
 	}
 }

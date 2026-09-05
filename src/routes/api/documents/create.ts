@@ -20,6 +20,7 @@ export const Route = createFileRoute('/api/documents/create')({
 
 				const formData = await request.formData()
 				const rawData = Object.fromEntries(formData.entries()) as unknown as CreateDocumentParams
+				const tags = formData.getAll('tags') as Array<string>
 
 				try {
 					const permissions = await prisma.categoryPermission.findMany({
@@ -38,7 +39,7 @@ export const Route = createFileRoute('/api/documents/create')({
 							date: rawData.date ? formatDateToSaveDatabase(rawData.date) : null,
 							description: rawData.description || null,
 							identification: rawData.identification || null,
-							tags: rawData.tags || [],
+							tags,
 							title: rawData.title,
 							typeId: rawData.typeId,
 						},
@@ -50,8 +51,7 @@ export const Route = createFileRoute('/api/documents/create')({
 						title: rawData.title,
 					})
 					return Response.json({ data: document }, { status: 201 })
-				} catch (error) {
-					console.error('create', error)
+				} catch {
 					return Response.json({ error: 'Internal Server Error' }, { status: 500 })
 				}
 			},

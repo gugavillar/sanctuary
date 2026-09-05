@@ -16,6 +16,7 @@ import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layo
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ApiDocumentsCategoriesRouteImport } from './routes/api/documents/categories'
 import { Route as ApiDocumentsCreateRouteImport } from './routes/api/documents/create'
+import { Route as ApiDocumentsGenerateUrlRouteImport } from './routes/api/documents/generate-url'
 import { Route as ApiDocumentsListRouteImport } from './routes/api/documents/list'
 import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as ApiUsersCreateRouteImport } from './routes/api/users/create'
@@ -60,6 +61,11 @@ const ApiDocumentsCategoriesRoute = ApiDocumentsCategoriesRouteImport.update({
 const ApiDocumentsCreateRoute = ApiDocumentsCreateRouteImport.update({
   id: '/api/documents/create',
   path: '/api/documents/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDocumentsGenerateUrlRoute = ApiDocumentsGenerateUrlRouteImport.update({
+  id: '/api/documents/generate-url',
+  path: '/api/documents/generate-url',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDocumentsListRoute = ApiDocumentsListRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/create': typeof ApiDocumentsCreateRoute
+  '/api/documents/generate-url': typeof ApiDocumentsGenerateUrlRoute
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/create': typeof ApiDocumentsCreateRoute
+  '/api/documents/generate-url': typeof ApiDocumentsGenerateUrlRoute
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/create': typeof ApiDocumentsCreateRoute
+  '/api/documents/generate-url': typeof ApiDocumentsGenerateUrlRoute
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/create'
+    | '/api/documents/generate-url'
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/create'
+    | '/api/documents/generate-url'
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/api/documents/categories'
     | '/api/documents/create'
+    | '/api/documents/generate-url'
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
@@ -248,6 +260,7 @@ export interface RootRouteChildren {
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiDocumentsCategoriesRoute: typeof ApiDocumentsCategoriesRoute
   ApiDocumentsCreateRoute: typeof ApiDocumentsCreateRoute
+  ApiDocumentsGenerateUrlRoute: typeof ApiDocumentsGenerateUrlRoute
   ApiDocumentsListRoute: typeof ApiDocumentsListRoute
   ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
   ApiUsersCreateRoute: typeof ApiUsersCreateRoute
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/api/documents/create'
       fullPath: '/api/documents/create'
       preLoaderRoute: typeof ApiDocumentsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/documents/generate-url': {
+      id: '/api/documents/generate-url'
+      path: '/api/documents/generate-url'
+      fullPath: '/api/documents/generate-url'
+      preLoaderRoute: typeof ApiDocumentsGenerateUrlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/documents/list': {
@@ -430,6 +450,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiDocumentsCategoriesRoute: ApiDocumentsCategoriesRoute,
   ApiDocumentsCreateRoute: ApiDocumentsCreateRoute,
+  ApiDocumentsGenerateUrlRoute: ApiDocumentsGenerateUrlRoute,
   ApiDocumentsListRoute: ApiDocumentsListRoute,
   ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
   ApiUsersCreateRoute: ApiUsersCreateRoute,

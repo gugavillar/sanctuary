@@ -1,12 +1,12 @@
 import { useNavigate } from '@tanstack/react-router'
 import { isAxiosError } from 'axios'
 import { PlusCircleIcon, UserKeyIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useDebounceValue } from 'usehooks-ts'
 
 import { Button, Input } from '#/components/forms'
-import { Pagination, Table } from '#/components/ui'
+import { Pagination, Spinner, Table } from '#/components/ui'
 import { useQuery } from '#/lib/query-client'
 import { usersQuery } from '#/services/users/hooks/useGetUsers'
 import { useResetPassword } from '#/services/users/hooks/useResetPassword'
@@ -17,6 +17,7 @@ export const Users = () => {
 	const [search, setSearch] = useState('')
 	const [page, setPage] = useState(1)
 	const [debouncedValue] = useDebounceValue(search, 500)
+	const buttonRef = useRef<null | string>(null)
 	const navigate = useNavigate()
 	const { data: users, isLoading } = useQuery(usersQuery({ page, search: debouncedValue }))
 	const { mutateAsync: resetPassword, isPending } = useResetPassword()
@@ -48,10 +49,13 @@ export const Users = () => {
 			<button
 				className="flex cursor-pointer items-center justify-center px-2 py-1 disabled:opacity-50"
 				disabled={isPending}
-				onClick={() => handleResetPassword(user.id)}
+				onClick={() => {
+					buttonRef.current = user.id
+					handleResetPassword(user.id)
+				}}
 				type="button"
 			>
-				<UserKeyIcon />
+				{isPending && buttonRef.current === user.id ? <Spinner /> : <UserKeyIcon />}
 			</button>
 		),
 	}))
