@@ -25,3 +25,14 @@ export const MENU_ITEMS = [
 		to: '/usuarios',
 	},
 ]
+
+export const ROLE_OPTIONS = [
+	{ label: 'Usuário', value: 'USER' },
+	{ label: 'Administrador', value: 'ADMIN' },
+]
+
+export const PERMISSION_LEVEL_OPTIONS = [
+	{ label: 'Sem acesso', value: 'NONE' },
+	{ label: 'Visualizar', value: 'VIEW' },
+	{ label: 'Visualizar e adicionar', value: 'VIEW_AND_ADD' },
+]

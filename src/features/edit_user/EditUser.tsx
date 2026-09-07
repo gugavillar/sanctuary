@@ -1,36 +1,35 @@
-import { useNavigate } from '@tanstack/react-router'
-import { isAxiosError } from 'axios'
+import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 import { useForm, useWatch } from 'react-hook-form'
-import { toast } from 'react-toastify'
 
 import { Button, Input, Select } from '#/components/forms'
 import { PERMISSION_LEVEL_OPTIONS, ROLE_OPTIONS } from '#/constants'
-import { useSuspenseQuery } from '#/lib/query-client'
+import { useQuery, useSuspenseQuery } from '#/lib/query-client'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
-import { useCreateUser } from '#/services/users/hooks/useCreateUser'
+import { userQuery } from '#/services/users/hooks/useGetUser'
 
-import { type NewUserSchema, newUserResolver } from './NewUser.schema'
+import { type EditUserSchema, editUserResolver } from './EditUser.schema'
 
-export const NewUser = () => {
+export const EditUser = () => {
 	const navigate = useNavigate()
+	const routeApi = getRouteApi('/(admin)/_layout/usuarios/_layout/editar_usuario/$userId')
+	const params = routeApi.useParams()
 	const { data: categories } = useSuspenseQuery(documentCategoryQuery())
-	const { mutateAsync: createUserAsync, isPending } = useCreateUser()
+	const { data: user } = useQuery(userQuery(params))
 	const {
 		control,
 		register,
 		handleSubmit,
 		formState: { errors, isDirty, isValid },
-		reset,
-	} = useForm<NewUserSchema>({
+	} = useForm<EditUserSchema>({
 		defaultValues: {
-			categoryPermissions: Object.fromEntries(categories.map((category) => [category.value, 'NONE'])),
-			email: '',
-			name: '',
-			role: 'USER',
+			categoryPermissions: user?.categoryPermissions,
+			email: user?.email,
+			name: user?.name,
+			role: user?.role,
 		},
 		mode: 'onChange',
-		resolver: newUserResolver,
+		resolver: editUserResolver,
 	})
 	const role = useWatch({ control, name: 'role' })
 
@@ -38,30 +37,8 @@ export const NewUser = () => {
 		navigate({ to: '/usuarios' })
 	}
 
-	const onSubmit = async (data: NewUserSchema) => {
-		await createUserAsync(
-			{
-				email: data.email,
-				name: data.name,
-				permissions: Object.entries(data.categoryPermissions)
-					.filter(([, level]) => level !== 'NONE')
-					.map(([categoryId, level]) => ({ categoryId, level: level as 'VIEW' | 'VIEW_AND_ADD' })),
-				role: data.role,
-			},
-			{
-				onError: (error) => {
-					if (isAxiosError(error) && error.response?.status === 409) {
-						return toast.error('Email já cadastrado')
-					}
-					toast.error('Falha ao criar usuário')
-				},
-				onSuccess: () => {
-					toast.success('Usuário criado com sucesso')
-					reset()
-					handleBack()
-				},
-			}
-		)
+	const onSubmit = async (data: EditUserSchema) => {
+		console.log(data)
 	}
 
 	return (
@@ -71,7 +48,7 @@ export const NewUser = () => {
 					<ChevronLeft />
 					<span>Voltar</span>
 				</Button>
-				<h1 className="text-3xl">Novo usuário</h1>
+				<h1 className="text-3xl">Editar usuário</h1>
 			</div>
 			<form className="flex max-w-md flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
 				<Input {...register('name')} error={errors.name?.message} label="Nome" placeholder="Nome" />
@@ -95,7 +72,6 @@ export const NewUser = () => {
 				<Button
 					className="w-50 self-end bg-emerald-600 text-white hover:bg-emerald-500"
 					disabled={!isDirty || !isValid}
-					isLoading={isPending}
 					type="submit"
 				>
 					Salvar

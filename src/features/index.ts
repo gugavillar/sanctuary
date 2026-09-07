@@ -1,5 +1,6 @@
 export * from './change_password'
 export * from './documents'
+export * from './edit_user'
 export * from './login'
 export * from './new_document'
 export * from './new_user'

@@ -4,13 +4,13 @@ import { NewUser } from '#/features'
 import { documentCategoryQuery } from '#/services/documents/hooks/useGetCategories'
 
 export const Route = createFileRoute('/(admin)/_layout/usuarios/_layout/novo_usuario')({
-	component: RouteComponent,
-	loader: async ({ context }) => {
+	beforeLoad: async ({ context }) => {
 		await context.queryClient.query(documentCategoryQuery())
 	},
+	component: CreateUserPage,
 })
 
-function RouteComponent() {
+function CreateUserPage() {
 	return (
 		<div className="flex flex-col gap-8">
 			<NewUser />

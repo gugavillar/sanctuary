@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { useDebounceValue } from 'usehooks-ts'
 
 import { Button, Input } from '#/components/forms'
-import { Pagination, Spinner, Table } from '#/components/ui'
+import { Pagination, Spinner, Table, Tooltip } from '#/components/ui'
 import { useQuery } from '#/lib/query-client'
 import { useGenerateUrl } from '#/services/documents/hooks/useGenerateUrl'
 import { documentsQuery } from '#/services/documents/hooks/useGetDocuments'
@@ -35,17 +35,19 @@ export const Documents = () => {
 	const formattedDocuments = documents?.documents.map((document) => ({
 		...document,
 		actions: (
-			<button
-				className="cursor-pointer"
-				disabled={isPending}
-				onClick={() => {
-					buttonRef.current = document.id
-					handleViewDocument(document.id)
-				}}
-				type="button"
-			>
-				{isPending && buttonRef.current === document.id ? <Spinner /> : <Eye />}
-			</button>
+			<Tooltip content="Visualizar documento">
+				<button
+					className="cursor-pointer"
+					disabled={isPending}
+					onClick={() => {
+						buttonRef.current = document.id
+						handleViewDocument(document.id)
+					}}
+					type="button"
+				>
+					{isPending && buttonRef.current === document.id ? <Spinner /> : <Eye />}
+				</button>
+			</Tooltip>
 		),
 	}))
 

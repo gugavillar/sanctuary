@@ -21,6 +21,7 @@ import { Route as ApiDocumentsGenerateUrlRouteImport } from './routes/api/docume
 import { Route as ApiDocumentsListRouteImport } from './routes/api/documents/list'
 import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as ApiUsersCreateRouteImport } from './routes/api/users/create'
+import { Route as ApiUsersGetUserRouteImport } from './routes/api/users/get-user'
 import { Route as ApiUsersListRouteImport } from './routes/api/users/list'
 import { Route as ApiUsersResetPasswordRouteImport } from './routes/api/users/reset-password'
 import { Route as ApiUsersUpdatePasswordRouteImport } from './routes/api/users/update-password'
@@ -29,6 +30,7 @@ import { Route as adminLayoutDocumentosNovo_documentoRouteImport } from './route
 import { Route as adminLayoutUsuariosLayoutRouteImport } from './routes/(admin)/_layout/usuarios/_layout'
 import { Route as adminLayoutUsuariosLayoutIndexRouteImport } from './routes/(admin)/_layout/usuarios/_layout/index'
 import { Route as adminLayoutUsuariosLayoutNovo_usuarioRouteImport } from './routes/(admin)/_layout/usuarios/_layout/novo_usuario'
+import { Route as adminLayoutUsuariosLayoutEditar_usuarioUserIdRouteImport } from './routes/(admin)/_layout/usuarios/_layout/editar_usuario/$userId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -89,6 +91,11 @@ const ApiUsersCreateRoute = ApiUsersCreateRouteImport.update({
   path: '/api/users/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUsersGetUserRoute = ApiUsersGetUserRouteImport.update({
+  id: '/api/users/get-user',
+  path: '/api/users/get-user',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiUsersListRoute = ApiUsersListRouteImport.update({
   id: '/api/users/list',
   path: '/api/users/list',
@@ -134,6 +141,12 @@ const adminLayoutUsuariosLayoutNovo_usuarioRoute =
     path: '/novo_usuario',
     getParentRoute: () => adminLayoutUsuariosLayoutRoute,
   } as any)
+const adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute =
+  adminLayoutUsuariosLayoutEditar_usuarioUserIdRouteImport.update({
+    id: '/editar_usuario/$userId',
+    path: '/editar_usuario/$userId',
+    getParentRoute: () => adminLayoutUsuariosLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -147,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
+  '/api/users/get-user': typeof ApiUsersGetUserRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
   '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
@@ -155,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/documentos/': typeof adminLayoutDocumentosIndexRoute
   '/usuarios/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
   '/usuarios/': typeof adminLayoutUsuariosLayoutIndexRoute
+  '/usuarios/editar_usuario/$userId': typeof adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -168,6 +183,7 @@ export interface FileRoutesByTo {
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
+  '/api/users/get-user': typeof ApiUsersGetUserRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
   '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
@@ -175,6 +191,7 @@ export interface FileRoutesByTo {
   '/documentos': typeof adminLayoutDocumentosIndexRoute
   '/usuarios/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
   '/usuarios': typeof adminLayoutUsuariosLayoutIndexRoute
+  '/usuarios/editar_usuario/$userId': typeof adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -190,6 +207,7 @@ export interface FileRoutesById {
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
+  '/api/users/get-user': typeof ApiUsersGetUserRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
   '/api/users/update-password': typeof ApiUsersUpdatePasswordRoute
@@ -198,6 +216,7 @@ export interface FileRoutesById {
   '/(admin)/_layout/documentos/': typeof adminLayoutDocumentosIndexRoute
   '/(admin)/_layout/usuarios/_layout/novo_usuario': typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
   '/(admin)/_layout/usuarios/_layout/': typeof adminLayoutUsuariosLayoutIndexRoute
+  '/(admin)/_layout/usuarios/_layout/editar_usuario/$userId': typeof adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -213,6 +232,7 @@ export interface FileRouteTypes {
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
+    | '/api/users/get-user'
     | '/api/users/list'
     | '/api/users/reset-password'
     | '/api/users/update-password'
@@ -221,6 +241,7 @@ export interface FileRouteTypes {
     | '/documentos/'
     | '/usuarios/novo_usuario'
     | '/usuarios/'
+    | '/usuarios/editar_usuario/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -234,6 +255,7 @@ export interface FileRouteTypes {
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
+    | '/api/users/get-user'
     | '/api/users/list'
     | '/api/users/reset-password'
     | '/api/users/update-password'
@@ -241,6 +263,7 @@ export interface FileRouteTypes {
     | '/documentos'
     | '/usuarios/novo_usuario'
     | '/usuarios'
+    | '/usuarios/editar_usuario/$userId'
   id:
     | '__root__'
     | '/'
@@ -255,6 +278,7 @@ export interface FileRouteTypes {
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
+    | '/api/users/get-user'
     | '/api/users/list'
     | '/api/users/reset-password'
     | '/api/users/update-password'
@@ -263,6 +287,7 @@ export interface FileRouteTypes {
     | '/(admin)/_layout/documentos/'
     | '/(admin)/_layout/usuarios/_layout/novo_usuario'
     | '/(admin)/_layout/usuarios/_layout/'
+    | '/(admin)/_layout/usuarios/_layout/editar_usuario/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -277,6 +302,7 @@ export interface RootRouteChildren {
   ApiDocumentsListRoute: typeof ApiDocumentsListRoute
   ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
   ApiUsersCreateRoute: typeof ApiUsersCreateRoute
+  ApiUsersGetUserRoute: typeof ApiUsersGetUserRoute
   ApiUsersListRoute: typeof ApiUsersListRoute
   ApiUsersResetPasswordRoute: typeof ApiUsersResetPasswordRoute
   ApiUsersUpdatePasswordRoute: typeof ApiUsersUpdatePasswordRoute
@@ -368,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUsersCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/users/get-user': {
+      id: '/api/users/get-user'
+      path: '/api/users/get-user'
+      fullPath: '/api/users/get-user'
+      preLoaderRoute: typeof ApiUsersGetUserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/users/list': {
       id: '/api/users/list'
       path: '/api/users/list'
@@ -424,12 +457,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminLayoutUsuariosLayoutNovo_usuarioRouteImport
       parentRoute: typeof adminLayoutUsuariosLayoutRoute
     }
+    '/(admin)/_layout/usuarios/_layout/editar_usuario/$userId': {
+      id: '/(admin)/_layout/usuarios/_layout/editar_usuario/$userId'
+      path: '/editar_usuario/$userId'
+      fullPath: '/usuarios/editar_usuario/$userId'
+      preLoaderRoute: typeof adminLayoutUsuariosLayoutEditar_usuarioUserIdRouteImport
+      parentRoute: typeof adminLayoutUsuariosLayoutRoute
+    }
   }
 }
 
 interface adminLayoutUsuariosLayoutRouteChildren {
   adminLayoutUsuariosLayoutNovo_usuarioRoute: typeof adminLayoutUsuariosLayoutNovo_usuarioRoute
   adminLayoutUsuariosLayoutIndexRoute: typeof adminLayoutUsuariosLayoutIndexRoute
+  adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute: typeof adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute
 }
 
 const adminLayoutUsuariosLayoutRouteChildren: adminLayoutUsuariosLayoutRouteChildren =
@@ -437,6 +478,8 @@ const adminLayoutUsuariosLayoutRouteChildren: adminLayoutUsuariosLayoutRouteChil
     adminLayoutUsuariosLayoutNovo_usuarioRoute:
       adminLayoutUsuariosLayoutNovo_usuarioRoute,
     adminLayoutUsuariosLayoutIndexRoute: adminLayoutUsuariosLayoutIndexRoute,
+    adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute:
+      adminLayoutUsuariosLayoutEditar_usuarioUserIdRoute,
   }
 
 const adminLayoutUsuariosLayoutRouteWithChildren =
@@ -475,6 +518,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiDocumentsListRoute: ApiDocumentsListRoute,
   ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
   ApiUsersCreateRoute: ApiUsersCreateRoute,
+  ApiUsersGetUserRoute: ApiUsersGetUserRoute,
   ApiUsersListRoute: ApiUsersListRoute,
   ApiUsersResetPasswordRoute: ApiUsersResetPasswordRoute,
   ApiUsersUpdatePasswordRoute: ApiUsersUpdatePasswordRoute,
