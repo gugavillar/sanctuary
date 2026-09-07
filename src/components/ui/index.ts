@@ -1,3 +1,4 @@
+export * from './BarChart'
 export * from './Pagination'
 export * from './Sidebar'
 export * from './Spinner'

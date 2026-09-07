@@ -14,6 +14,7 @@ import { Route as AlterarSenhaRouteImport } from './routes/alterar-senha'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/_layout'
 import { Route as adminLayoutDashboardRouteImport } from './routes/(admin)/_layout/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiDashboardListRouteImport } from './routes/api/dashboard/list'
 import { Route as ApiDocumentsCategoriesRouteImport } from './routes/api/documents/categories'
 import { Route as ApiDocumentsCreateRouteImport } from './routes/api/documents/create'
 import { Route as ApiDocumentsGenerateUrlRouteImport } from './routes/api/documents/generate-url'
@@ -51,6 +52,11 @@ const adminLayoutDashboardRoute = adminLayoutDashboardRouteImport.update({
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDashboardListRoute = ApiDashboardListRouteImport.update({
+  id: '/api/dashboard/list',
+  path: '/api/dashboard/list',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDocumentsCategoriesRoute = ApiDocumentsCategoriesRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/alterar-senha': typeof AlterarSenhaRoute
   '/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/dashboard/list': typeof ApiDashboardListRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/create': typeof ApiDocumentsCreateRoute
   '/api/documents/generate-url': typeof ApiDocumentsGenerateUrlRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/alterar-senha': typeof AlterarSenhaRoute
   '/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/dashboard/list': typeof ApiDashboardListRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/create': typeof ApiDocumentsCreateRoute
   '/api/documents/generate-url': typeof ApiDocumentsGenerateUrlRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/(admin)/_layout': typeof adminLayoutRouteWithChildren
   '/(admin)/_layout/dashboard': typeof adminLayoutDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/dashboard/list': typeof ApiDashboardListRoute
   '/api/documents/categories': typeof ApiDocumentsCategoriesRoute
   '/api/documents/create': typeof ApiDocumentsCreateRoute
   '/api/documents/generate-url': typeof ApiDocumentsGenerateUrlRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/alterar-senha'
     | '/dashboard'
     | '/api/auth/$'
+    | '/api/dashboard/list'
     | '/api/documents/categories'
     | '/api/documents/create'
     | '/api/documents/generate-url'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/alterar-senha'
     | '/dashboard'
     | '/api/auth/$'
+    | '/api/dashboard/list'
     | '/api/documents/categories'
     | '/api/documents/create'
     | '/api/documents/generate-url'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/(admin)/_layout'
     | '/(admin)/_layout/dashboard'
     | '/api/auth/$'
+    | '/api/dashboard/list'
     | '/api/documents/categories'
     | '/api/documents/create'
     | '/api/documents/generate-url'
@@ -258,6 +270,7 @@ export interface RootRouteChildren {
   AlterarSenhaRoute: typeof AlterarSenhaRoute
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiDashboardListRoute: typeof ApiDashboardListRoute
   ApiDocumentsCategoriesRoute: typeof ApiDocumentsCategoriesRoute
   ApiDocumentsCreateRoute: typeof ApiDocumentsCreateRoute
   ApiDocumentsGenerateUrlRoute: typeof ApiDocumentsGenerateUrlRoute
@@ -304,6 +317,13 @@ declare module '@tanstack/react-router' {
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/dashboard/list': {
+      id: '/api/dashboard/list'
+      path: '/api/dashboard/list'
+      fullPath: '/api/dashboard/list'
+      preLoaderRoute: typeof ApiDashboardListRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/documents/categories': {
@@ -448,6 +468,7 @@ const rootRouteChildren: RootRouteChildren = {
   AlterarSenhaRoute: AlterarSenhaRoute,
   adminLayoutRoute: adminLayoutRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiDashboardListRoute: ApiDashboardListRoute,
   ApiDocumentsCategoriesRoute: ApiDocumentsCategoriesRoute,
   ApiDocumentsCreateRoute: ApiDocumentsCreateRoute,
   ApiDocumentsGenerateUrlRoute: ApiDocumentsGenerateUrlRoute,

@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { getRequestHeaders } from '@tanstack/react-start/server'
 
 import { LIMIT_PER_PAGE } from '#/constants'
 import { prisma } from '#/db'
+import { auth } from '#/lib/auth'
 
 export const Route = createFileRoute('/api/users/list')({
 	server: {
@@ -10,6 +12,12 @@ export const Route = createFileRoute('/api/users/list')({
 				const search = new URL(request.url).searchParams.get('search')
 				const page = parseInt(new URL(request.url).searchParams.get('page') ?? '1', 10)
 				const skip = (page - 1) * LIMIT_PER_PAGE
+
+				const session = await auth.api.getSession({ headers: getRequestHeaders() })
+
+				if (!session || session.user.role !== 'ADMIN') {
+					return Response.json({ error: 'Unauthorized' }, { status: 401 })
+				}
 
 				try {
 					const [users, total] = await Promise.all([
