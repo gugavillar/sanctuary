@@ -39,7 +39,7 @@ export const Dashboard = () => {
 				<h2 className="text-2xl">Adicionados recentemente</h2>
 				<Table bodyData={recentDocuments} headerLabels={HEADER_LABELS} isLoading={isLoading} />
 			</div>
-			<div className="flex h-110 flex-col p-6">
+			<div className="flex h-96 flex-col p-6">
 				<h2 className="text-2xl">Adicionados por mês</h2>
 				<BarChart
 					categories={generateGraphLabels(documentsByMonth ?? [])}
