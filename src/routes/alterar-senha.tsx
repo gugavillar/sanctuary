@@ -1,9 +1,21 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { Logo } from '#/components/icons'
 import { ChangePassword } from '#/features'
+import { getSession } from '#/lib/get-session'
 
 export const Route = createFileRoute('/alterar-senha')({
+	beforeLoad: async () => {
+		const session = await getSession()
+
+		if (!session) {
+			throw redirect({ to: '/' })
+		}
+
+		return {
+			session,
+		}
+	},
 	component: ChangePasswordPage,
 })
 

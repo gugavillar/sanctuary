@@ -21,6 +21,7 @@ import { Route as ApiDocumentsGenerateUrlRouteImport } from './routes/api/docume
 import { Route as ApiDocumentsListRouteImport } from './routes/api/documents/list'
 import { Route as ApiDocumentsTypesRouteImport } from './routes/api/documents/types'
 import { Route as ApiUsersCreateRouteImport } from './routes/api/users/create'
+import { Route as ApiUsersEditRouteImport } from './routes/api/users/edit'
 import { Route as ApiUsersGetUserRouteImport } from './routes/api/users/get-user'
 import { Route as ApiUsersListRouteImport } from './routes/api/users/list'
 import { Route as ApiUsersResetPasswordRouteImport } from './routes/api/users/reset-password'
@@ -89,6 +90,11 @@ const ApiDocumentsTypesRoute = ApiDocumentsTypesRouteImport.update({
 const ApiUsersCreateRoute = ApiUsersCreateRouteImport.update({
   id: '/api/users/create',
   path: '/api/users/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersEditRoute = ApiUsersEditRouteImport.update({
+  id: '/api/users/edit',
+  path: '/api/users/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiUsersGetUserRoute = ApiUsersGetUserRouteImport.update({
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
+  '/api/users/edit': typeof ApiUsersEditRoute
   '/api/users/get-user': typeof ApiUsersGetUserRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
+  '/api/users/edit': typeof ApiUsersEditRoute
   '/api/users/get-user': typeof ApiUsersGetUserRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/api/documents/list': typeof ApiDocumentsListRoute
   '/api/documents/types': typeof ApiDocumentsTypesRoute
   '/api/users/create': typeof ApiUsersCreateRoute
+  '/api/users/edit': typeof ApiUsersEditRoute
   '/api/users/get-user': typeof ApiUsersGetUserRoute
   '/api/users/list': typeof ApiUsersListRoute
   '/api/users/reset-password': typeof ApiUsersResetPasswordRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
+    | '/api/users/edit'
     | '/api/users/get-user'
     | '/api/users/list'
     | '/api/users/reset-password'
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
+    | '/api/users/edit'
     | '/api/users/get-user'
     | '/api/users/list'
     | '/api/users/reset-password'
@@ -278,6 +289,7 @@ export interface FileRouteTypes {
     | '/api/documents/list'
     | '/api/documents/types'
     | '/api/users/create'
+    | '/api/users/edit'
     | '/api/users/get-user'
     | '/api/users/list'
     | '/api/users/reset-password'
@@ -302,6 +314,7 @@ export interface RootRouteChildren {
   ApiDocumentsListRoute: typeof ApiDocumentsListRoute
   ApiDocumentsTypesRoute: typeof ApiDocumentsTypesRoute
   ApiUsersCreateRoute: typeof ApiUsersCreateRoute
+  ApiUsersEditRoute: typeof ApiUsersEditRoute
   ApiUsersGetUserRoute: typeof ApiUsersGetUserRoute
   ApiUsersListRoute: typeof ApiUsersListRoute
   ApiUsersResetPasswordRoute: typeof ApiUsersResetPasswordRoute
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       path: '/api/users/create'
       fullPath: '/api/users/create'
       preLoaderRoute: typeof ApiUsersCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/edit': {
+      id: '/api/users/edit'
+      path: '/api/users/edit'
+      fullPath: '/api/users/edit'
+      preLoaderRoute: typeof ApiUsersEditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/users/get-user': {
@@ -518,6 +538,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiDocumentsListRoute: ApiDocumentsListRoute,
   ApiDocumentsTypesRoute: ApiDocumentsTypesRoute,
   ApiUsersCreateRoute: ApiUsersCreateRoute,
+  ApiUsersEditRoute: ApiUsersEditRoute,
   ApiUsersGetUserRoute: ApiUsersGetUserRoute,
   ApiUsersListRoute: ApiUsersListRoute,
   ApiUsersResetPasswordRoute: ApiUsersResetPasswordRoute,

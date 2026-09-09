@@ -41,12 +41,10 @@ export const NewUser = () => {
 	const onSubmit = async (data: NewUserSchema) => {
 		await createUserAsync(
 			{
-				email: data.email,
-				name: data.name,
+				...data,
 				permissions: Object.entries(data.categoryPermissions)
 					.filter(([, level]) => level !== 'NONE')
 					.map(([categoryId, level]) => ({ categoryId, level: level as 'VIEW' | 'VIEW_AND_ADD' })),
-				role: data.role,
 			},
 			{
 				onError: (error) => {
