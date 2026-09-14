@@ -8,7 +8,7 @@ export const Route = createFileRoute('/alterar-senha')({
 	beforeLoad: async () => {
 		const session = await getSession()
 
-		if (!session) {
+		if (!session || !session.user.mustChangePassword) {
 			throw redirect({ to: '/' })
 		}
 
