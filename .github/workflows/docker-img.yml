@@ -35,6 +35,9 @@ jobs:
       - name: Run biome
         run: biome ci .
 
+      - name: Generate Prisma client
+        run: pnpm prisma db:generate
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
