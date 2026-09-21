@@ -19,7 +19,6 @@ const TYPES = [
 	'Recibo',
 	'Comprovante',
 	'Certidão',
-	'Formulário',
 	'Declaração',
 	'Outros',
 ]
@@ -37,11 +36,11 @@ async function main() {
     const existingAdmin = await prisma.user.findUnique({ where: { email: 'admin@admin.com.br' } })
 
     if (!existingAdmin) {
-      const { user, token } = await auth.api.signUpEmail({
+      const { user } = await auth.api.signUpEmail({
         body: { email: 'admin@admin.com.br', name: 'Administrador', password: FIRST_PASSWORD },
       })
 
-      if (!token) throw new Error('Sign up failed')
+      if (!user?.id) throw new Error('Sign up failed')
 
       await prisma.user.update({
         data: { mustChangePassword: true, role: 'ADMIN' },
