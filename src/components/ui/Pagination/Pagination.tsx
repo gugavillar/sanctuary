@@ -1,4 +1,3 @@
-'use client'
 import { ChevronLeft, ChevronRight, Ellipsis } from 'lucide-react'
 import { memo } from 'react'
 import { twMerge } from 'tailwind-merge'

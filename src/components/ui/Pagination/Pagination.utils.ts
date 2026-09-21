@@ -1,4 +1,3 @@
-'use client'
 import { useMemo } from 'react'
 
 const range = (start: number, end: number) => {
