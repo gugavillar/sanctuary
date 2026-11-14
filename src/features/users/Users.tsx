@@ -27,7 +27,7 @@ export const Users = () => {
 	}
 
 	const handleEditUser = (userId: string) => {
-		navigate({ to: `/usuarios/editar_usuario/${userId}` })
+		navigate({ to: `/usuarios/editar_usuario/${encodeURIComponent(userId)}` })
 	}
 
 	const handleResetPassword = async (userId: string) => {
