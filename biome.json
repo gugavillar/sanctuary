@@ -76,7 +76,7 @@
 			"performance": {
 				"noAccumulatingSpread": "off"
 			},
-			"recommended": true,
+			"preset": "recommended",
 			"security": {
 				"noDangerouslySetInnerHtml": "off"
 			},

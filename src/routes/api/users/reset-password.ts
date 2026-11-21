@@ -13,7 +13,7 @@ export const Route = createFileRoute('/api/users/reset-password')({
 				const headers = getRequestHeaders()
 				const session = await auth.api.getSession({ headers })
 
-				if (!session || session.user.role !== 'ADMIN') {
+				if (session?.user.role !== 'ADMIN') {
 					return Response.json({ error: 'Forbidden' }, { status: 403 })
 				}
 
