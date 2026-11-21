@@ -1,6 +1,6 @@
 import { File, FilePlus, Folder, Users2 } from 'lucide-react'
 
-// biome-ignore assist/source/useSortedKeys: order dashboard cards
+// biome-ignore assist/source/useSortedKeys: No need order
 export const MAPPED_CARDS = {
 	documents: { icon: <File />, title: 'Documentos' },
 	categories: { icon: <Folder />, title: 'Categorias' },

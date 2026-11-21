@@ -10,7 +10,7 @@ export const Route = createFileRoute('/api/users/edit')({
 			POST: async ({ request }) => {
 				const session = await auth.api.getSession({ headers: getRequestHeaders() })
 
-				if (!session || session.user.role !== 'ADMIN') {
+				if (session?.user?.role !== 'ADMIN') {
 					return Response.json({ error: 'Forbidden' }, { status: 403 })
 				}
 

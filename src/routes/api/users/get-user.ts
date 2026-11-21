@@ -12,7 +12,7 @@ export const Route = createFileRoute('/api/users/get-user')({
 
 				const session = await auth.api.getSession({ headers: getRequestHeaders() })
 
-				if (!session || session.user.role !== 'ADMIN') {
+				if (session?.user?.role !== 'ADMIN') {
 					return Response.json({ error: 'Unauthorized' }, { status: 401 })
 				}
 
